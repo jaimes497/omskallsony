@@ -2,6 +2,8 @@ package co.com.kallsony.bl.controlador;
 
 import java.util.List;
 
+import org.jboss.seam.annotations.Name;
+
 import co.com.kallsony.bl.IManejadorOrden;
 import co.com.kallsony.bl.ManejadorCampania;
 import co.com.kallsony.bl.ManejadorCliente;
@@ -12,28 +14,23 @@ import co.com.kallsony.bl.entidad.Cliente;
 import co.com.kallsony.bl.entidad.Orden;
 import co.com.kallsony.bl.entidad.Producto;
 
-
+@Name("fachadaManejador")
 public class FachadaManejador {
 	
-	private static FachadaManejador instance = null;
+	
 	private ManejadorCampania mCampania;
 	private ManejadorCliente mCliente;
 	private ManejadorOrden mOrden;
 	private ManejadorProducto mProducto;
 	
-	private FachadaManejador() {
+	public FachadaManejador() {
 		mCampania = new ManejadorCampania();
 		mCliente = new ManejadorCliente();
 		mOrden = new ManejadorOrden();
 		mProducto = new ManejadorProducto();
 	}
 	
-	public static FachadaManejador getInstance() {
-		if (instance == null) {
-			instance = new FachadaManejador();
-		}
-		return instance;
-	}
+
 	
 	public boolean crearCampania(Campania campania){
 		return mCampania.crearCampania(campania);

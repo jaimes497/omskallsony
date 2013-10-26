@@ -30,3 +30,11 @@ richfaces-ui.jar
 darkX.jar
 glassX.jar
 laguna.jar
+clientesWebServiceKS.jar
+axis.jar
+axis-ant.jar
+commons-discovery-0.2.jar
+javax.wsdl_1.6.2.v201012040545.jar
+jaxrpc.jar
+org.apache.commons.logging_1.0.4.v201101211617.jar
+saaj.jar

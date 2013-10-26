@@ -2,6 +2,8 @@ package co.com.kallsony.dal;
 
 import co.com.kallsony.bl.entidad.Producto;
 
+
+
 public class ProductoServicio implements IProductoServicio {
 
 	@Override

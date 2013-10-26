@@ -1,12 +1,13 @@
 package co.com.kallsony.bl.entidad;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 
 public class Campania {
 	
 	private BigDecimal campaniaid;
-	private BigDecimal prodid;
+	private BigInteger prodid;
 	private String url;
 	private Date fecIni;
 	private Date fecFin;
@@ -14,11 +15,11 @@ public class Campania {
 	public Campania(){
 	}
 	
-	public Campania(BigDecimal campaniaid, BigDecimal prodid) {
+	public Campania(BigDecimal campaniaid, BigInteger prodid) {
 		this.campaniaid = campaniaid;
 		this.prodid = prodid;
 	}
-	public Campania(BigDecimal campaniaid, BigDecimal prodid, String url,
+	public Campania(BigDecimal campaniaid, BigInteger prodid, String url,
 			Date fecIni, Date fecFin) {
 		this.campaniaid = campaniaid;
 		this.prodid = prodid;
@@ -35,11 +36,11 @@ public class Campania {
 		this.campaniaid = campaniaid;
 	}
 	
-	public BigDecimal getProdid() {
+	public BigInteger getProdid() {
 		return prodid;
 	}
 	
-	public void setProdid(BigDecimal prodid) {
+	public void setProdid(BigInteger prodid) {
 		this.prodid = prodid;
 	}
 	
