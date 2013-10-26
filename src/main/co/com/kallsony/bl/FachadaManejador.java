@@ -11,12 +11,17 @@ import co.com.kallsony.bl.entidad.Producto;
 public class FachadaManejador {
 	
 	private static FachadaManejador instance = null;
-	private IManejadorCampania iCampania;
-	private IManejadorCliente iCliente;
-	private IManejadorOrden iOrden;
-	private IManejadorProducto iProducto;
+	private ManejadorCampania mCampania;
+	private ManejadorCliente mCliente;
+	private ManejadorOrden mOrden;
+	private ManejadorProducto mProducto;
 	
-	private FachadaManejador() {}
+	private FachadaManejador() {
+		mCampania = new ManejadorCampania();
+		mCliente = new ManejadorCliente();
+		mOrden = new ManejadorOrden();
+		mProducto = new ManejadorProducto();
+	}
 	
 	public static FachadaManejador getInstance() {
 		if (instance == null) {
@@ -26,95 +31,95 @@ public class FachadaManejador {
 	}
 	
 	public boolean crearCampania(Campania campania){
-		return iCampania.crearCampania(campania);
+		return mCampania.crearCampania(campania);
 	}
 	
 	public boolean modificarCampania(Campania campania){
-		return iCampania.modificarCampania(campania);
+		return mCampania.modificarCampania(campania);
 	}
 	
 	public boolean eliminarCampania(Campania campania){
-		return iCampania.eliminarCampania(campania);
+		return mCampania.eliminarCampania(campania);
 	}
 	
 	public List<Campania> consultarCampanias(){
-		return iCampania.consultarCampanias();
+		return mCampania.consultarCampanias();
 	}
 	
 	public boolean crearCliente(Cliente cliente){
-		return iCliente.crearCliente(cliente);
+		return mCliente.crearCliente(cliente);
 	}
 
 	public boolean modificarCliente(Cliente cliente){
-		return iCliente.modificarCliente(cliente);
+		return mCliente.modificarCliente(cliente);
 	}
 
 	public List<Cliente> consultarClientes(){
-		return iCliente.consultarClientes();
+		return mCliente.consultarClientes();
 	}
 
 	public boolean cancelarOrden(Orden orden){
-		return iOrden.cancelarOrden(orden);
+		return mOrden.cancelarOrden(orden);
 	}
 
 	public boolean eliminarOrden(Orden orden){
-		return iOrden.eliminarOrden(orden);
+		return mOrden.eliminarOrden(orden);
 	}
 
 	public List<Orden> consultarOrdenes(){
-		return iOrden.consultarOrdenes();
+		return mOrden.consultarOrdenes();
 	}
 
 	public Orden consultarOrdenPorNumero(Orden orden){
-		return iOrden.consultarOrdenPorNumero(orden);
+		return mOrden.consultarOrdenPorNumero(orden);
 	}
 
 	public Orden consultarOrdenPorFecha(String filtro){
-		return iOrden.consultarOrdenPorFecha(IManejadorOrden.CONSULTAR_MES, filtro);
+		return mOrden.consultarOrdenPorFecha(IManejadorOrden.CONSULTAR_MES, filtro);
 	}
 
 	public List<Orden> consultarRankingOrdensAbiertas(){
-		return iOrden.consultarRankingOrdensAbiertas();
+		return mOrden.consultarRankingOrdensAbiertas();
 	}
 
 	public List<Orden> consultarRankingOrdensCerradas(){
-		return iOrden.consultarRankingOrdensCerradas();
+		return mOrden.consultarRankingOrdensCerradas();
 	}
 
 	public boolean crearProducto(Producto producto){
-		return iProducto.crearProducto(producto);
+		return mProducto.crearProducto(producto);
 	}
 
 	public boolean eliminarProducto(Producto producto){
-		return iProducto.eliminarProducto(producto);
+		return mProducto.eliminarProducto(producto);
 	}
 
 	public boolean modificarProducto(Producto producto){
-		return iProducto.modificarProducto(producto);
+		return mProducto.modificarProducto(producto);
 	}
 
 	public List<Producto> consultarProductos(){
-		return iProducto.consultarProductos();
+		return mProducto.consultarProductos();
 	}
 
 	public Producto consultarProductoPorCodigo(Producto producto){
-		return iProducto.consultarProductoPorCodigo(producto);
+		return mProducto.consultarProductoPorCodigo(producto);
 	}
 
 	public Producto consultarProductoPorNombre(Producto producto){
-		return iProducto.consultarProductoPorNombre(producto);
+		return mProducto.consultarProductoPorNombre(producto);
 	}
 
 	public Producto consultarProductoPorDescripcion(Producto producto){
-		return iProducto.consultarProductoPorDescripcion(producto);
+		return mProducto.consultarProductoPorDescripcion(producto);
 	}
 
 	public List<Producto> consultarRankingProductosMasVendidos(){
-		return iProducto.consultarRankingProductosMasVendidos();
+		return mProducto.consultarRankingProductosMasVendidos();
 	}
 
 	public List<Producto> consultarRankingCategoriaMasVendidas(){
-		return iProducto.consultarRankingCategoriaMasVendidas();
+		return mProducto.consultarRankingCategoriaMasVendidas();
 	}
 
 }
