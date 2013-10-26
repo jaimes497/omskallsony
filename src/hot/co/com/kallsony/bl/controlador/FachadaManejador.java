@@ -1,7 +1,12 @@
-package co.com.kallsony.bl;
+package co.com.kallsony.bl.controlador;
 
 import java.util.List;
 
+import co.com.kallsony.bl.IManejadorOrden;
+import co.com.kallsony.bl.ManejadorCampania;
+import co.com.kallsony.bl.ManejadorCliente;
+import co.com.kallsony.bl.ManejadorOrden;
+import co.com.kallsony.bl.ManejadorProducto;
 import co.com.kallsony.bl.entidad.Campania;
 import co.com.kallsony.bl.entidad.Cliente;
 import co.com.kallsony.bl.entidad.Orden;

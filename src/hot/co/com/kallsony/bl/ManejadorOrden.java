@@ -3,7 +3,7 @@ package co.com.kallsony.bl;
 import java.util.List;
 
 import co.com.kallsony.bl.entidad.Orden;
-import co.com.kallsony.dal.FachadaServicio;
+import co.com.kallsony.dal.controlador.FachadaServicio;
 
 public class ManejadorOrden implements IManejadorOrden {
 	

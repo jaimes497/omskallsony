@@ -1,6 +1,6 @@
 package test;
 
-import co.com.kallsony.bl.FachadaManejador;
+import co.com.kallsony.bl.controlador.FachadaManejador;
 import co.com.kallsony.bl.entidad.Orden;
 
 public class Test {
