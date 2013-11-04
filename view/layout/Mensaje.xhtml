@@ -1,0 +1,52 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:s="http://jboss.com/products/seam/taglib" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:rich="http://richfaces.org/rich" 
+	xmlns:a="http://richfaces.org/a4j">
+	
+	<rich:modalPanel rendered="#{showGlobalMessages != 'false' and facesMessages.getCurrentGlobalMessages().size() > 0}" 
+		id="mensaje" autosized="true" zindex="2000" minHeight="120" minWidth="350">
+		<f:facet name="header">
+			<h:outputText value="Mensaje" />
+		</f:facet>
+		
+		<a:form id="contenidoModalMsg" ajaxSubmit="true">
+			<s:div style="text-align: center;">
+				<a:outputPanel ajaxRendered="true" id="aPanelMess">
+					<s:div id="divMessages" rendered="#{showGlobalMessages != 'false' and facesMessages.getCurrentGlobalMessages().size() > 0}">
+						<rich:messages style="align:center; font-weight: bold;" id="messages" 
+							globalOnly="true" styleClass="message" errorClass="errormsg" 
+							infoClass="infomsg" warnClass="warnmsg" 
+							rendered="#{showGlobalMessages != 'false' and facesMessages.getCurrentGlobalMessages().size() > 0}" 
+							ajaxRendered="true">
+							
+							<f:facet name="infoMarker">
+								<h:graphicImage url="/img/msginfo.png" style="margin-right: 10px;" />
+							</f:facet>
+							
+							<f:facet name="warnMarker">
+								<h:graphicImage url="/img/msgwarn.png" style="margin-right: 10px;" />
+							</f:facet>
+							
+							<f:facet name="errorMarker">
+								<h:graphicImage url="/img/msgerror.png" style="margin-right: 10px;" />
+							</f:facet>
+							
+							<f:facet name="fatalMarker">
+								<h:graphicImage url="/img/msgerror.png" style="margin-right: 10px;" />
+							</f:facet>
+						</rich:messages>
+					</s:div>
+				</a:outputPanel>
+				
+				<a:commandButton onclick="Richfaces.hideModalPanel('mensaje');" value="Cerrar" status="false" />
+				
+				<rich:hotKey key="ESC" checkParent="true" handler="Richfaces.hideModalPanel('mensaje');" />
+			</s:div>
+		</a:form>
+	</rich:modalPanel>
+</ui:composition>

@@ -16,14 +16,16 @@
       <a:loadStyle src="/stylesheet/theme.css"/>
       <ui:insert name="head"/>
    </head>
-   <body>
+   <body onload="Richfaces.showModalPanel('mensaje');">
       <ui:include src="menu.xhtml">
          <ui:param name="projectName" value="oms"/>
       </ui:include>
       <div class="body">
-         <h:messages id="messages" globalOnly="true" styleClass="message"
-            errorClass="errormsg" infoClass="infomsg" warnClass="warnmsg"
-            rendered="#{showGlobalMessages != 'false'}"/>
+        <ui:include src="/layout/ajaxStatus.xhtml" />
+			
+			<h:panelGroup id="mensajeInfo">
+				<ui:include src="/layout/Mensaje.xhtml" />
+			</h:panelGroup>
          <ui:insert name="body"/>
       </div>
       <div class="footer">

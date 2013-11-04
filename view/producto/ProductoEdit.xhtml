@@ -1,0 +1,65 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="/layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="producto" styleClass="edit">
+ 
+        <rich:panel>
+            <f:facet name="header">Producto #{manejadorProducto.producto.name}</f:facet>
+
+
+
+            <s:decorate id="idProductoField" template="/layout/edit.xhtml">
+                <ui:define name="label">Id Producto</ui:define>
+               <h:outputText value="#{manejadorProducto.producto.prodid}" />
+            </s:decorate>
+            
+            <s:decorate id="nombreField" template="/layout/edit.xhtml">
+                <ui:define name="label">Nombre</ui:define>
+               <h:inputText value="#{manejadorProducto.producto.name}" />
+            </s:decorate>
+             <s:decorate id="descripcionField" template="/layout/edit.xhtml">
+                <ui:define name="label">Descripcion</ui:define>
+               <h:inputText value="#{manejadorProducto.producto.description}" />
+            </s:decorate>
+              <s:decorate id="fabricanteField" template="/layout/edit.xhtml">
+                <ui:define name="label">Fabricante</ui:define>
+               <h:inputText value="#{manejadorProducto.producto.producer}" />
+            </s:decorate>
+             
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                Campos Requeridos
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <a:commandButton id="save"
+                          value="Guardar Cambios"
+                     />
+            <h:commandButton id="delete"
+                          value="Eliminar"
+                    />
+            <a:commandButton
+            action="#{manejadorProducto.listar()}"
+                          value="Salir"
+                     />        
+
+        </div>
+    </h:form>
+
+</ui:define>
+
+</ui:composition>

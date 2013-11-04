@@ -12,18 +12,24 @@ import co.com.kallsony.dal.ProductoServicio;
 public class FachadaServicio {
 	
 	private static FachadaServicio instance = null;
-	
+	 private static  CampaniaServicio campaniaServicio;
+	 private ProductoServicio productoServicio;
 	private FachadaServicio() {}
 	
 	public static FachadaServicio getInstance() {
 		if (instance == null) {
 			instance = new FachadaServicio();
+			
 		}
 		return instance;
 	}
 	
 	public ICampaniaServicio obtenerCampaniaServicio(){
-		return new CampaniaServicio();
+		if(campaniaServicio==null)
+		{ 
+			campaniaServicio=new CampaniaServicio();
+		}
+		return campaniaServicio;
 	}
 	
 	public IClienteServicio obtenerClienteServicio(){
@@ -35,7 +41,11 @@ public class FachadaServicio {
 	}
 	
 	public IProductoServicio obtenerProductoServicio(){
-		return new ProductoServicio();
+		if(productoServicio==null)
+		{ 
+			productoServicio=new ProductoServicio();
+		}
+		return productoServicio;
 	}
 
 }

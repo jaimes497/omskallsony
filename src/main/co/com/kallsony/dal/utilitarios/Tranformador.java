@@ -1,8 +1,10 @@
 package co.com.kallsony.dal.utilitarios;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import modelowebservice.Producto;
 import modelowebservicecampania.Campanna;
 
 import co.com.kallsony.bl.entidad.Campania;
@@ -31,6 +33,18 @@ public class Tranformador {
 		return listadoCampania;
 		
 	}
+	
+	public static List<co.com.kallsony.bl.entidad.Producto> convertirListaProducto(Object producto){
+		
+		Producto productoConvertir[]= (Producto [])producto;
+		List<co.com.kallsony.bl.entidad.Producto>listadoProducto=new ArrayList<co.com.kallsony.bl.entidad.Producto>();
+		for(Producto produc:productoConvertir){
+			listadoProducto.add(new co.com.kallsony.bl.entidad.Producto(produc.getProdid(),produc.getName(),produc.getDescription(),produc.getCategory(),produc.getListPrice(),produc.getProducer(),produc.getImageurl(),produc.getSmallImageurl()));
+		}
+		return listadoProducto;
+		
+	}
+
 	public Campania convertirCampania(){
 		return null;
 	}

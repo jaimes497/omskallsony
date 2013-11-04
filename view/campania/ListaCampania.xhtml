@@ -6,36 +6,39 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:rich="http://richfaces.org/rich"
+     xmlns:a="http://richfaces.org/a4j"
     template="/layout/template.xhtml">
 
 <ui:define name="body">
-
-    <h:form id="listaCampania" styleClass="edit">
-    <rich:panel>
-    <rich:dataGrid var="_campania" elements="10" columns="2"
-              value="#{fachadaManejador.consultarCampanias()}">
-      <rich:panel >
-      <f:facet name="header">
-      <h:outputText value="Campaña" />
-      </f:facet>
-     <h:panelGrid columns="1">
-       <h:graphicImage value="#{_campania.url}" width="200" height="100" />
-       <h:panelGroup>
-       <h:commandLink value="Editar"  /> #{' '}
-       <h:commandLink value="Eliminar"  />
-       </h:panelGroup>
-      </h:panelGrid> 
-       
-      </rich:panel>        
-              </rich:dataGrid>
-      
-   
-    </rich:panel>
-
-   
-
+<h:form>
     
- </h:form>
+                <h:panelGroup rendered="#{manejadorCampania.items.rowCount > 0}">
+                  
+                 
+                    
+                   
+                    <rich:dataGrid value="#{manejadorCampania.items}" var="item" columns="2" elements="8">
+                    <rich:panel>
+                    <f:facet name="header">Campaña</f:facet>
+                    <h:panelGrid columns="1">
+                    <h:graphicImage value="#{item.url}" />
+                    <a:commandButton value="Editar"></a:commandButton>
+                    </h:panelGrid>
+                    </rich:panel>
+                    </rich:dataGrid>
+                     <table width="50%" align="center" border="0px" class="dr-table rich-table">
+					<tr>
+						<td align="center" class="dr-subtable-cell rich-subtable-cell">
+						<h1>
+						<h:commandLink action="#{manejadorCampania.previous}" value="Atras" rendered="#{manejadorCampania.pagination.hasPreviousPage}"/> #{' '}
+						   <h:outputText value="#{manejadorCampania.pagination.pageFirstItem + 1} #{' '}.. #{' '} #{manejadorCampania.pagination.pageLastItem + 1}/#{manejadorCampania.pagination.itemsCount}"/>#{' '}
+						 <h:commandLink action="#{manejadorCampania.next}" value="Siguiente" rendered="#{manejadorCampania.pagination.hasNextPage}"/>#{' '}
+					</h1>
+							</td>
+						</tr>
+						</table>
+                </h:panelGroup>
+      </h:form>          
 </ui:define>
 
 </ui:composition>

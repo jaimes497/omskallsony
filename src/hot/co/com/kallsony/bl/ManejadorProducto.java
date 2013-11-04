@@ -2,12 +2,21 @@ package co.com.kallsony.bl;
 
 import java.util.List;
 
+import javax.faces.model.DataModel;
+
+import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
+
 import co.com.kallsony.bl.entidad.Producto;
 import co.com.kallsony.dal.controlador.FachadaServicio;
-
+import co.com.kallsony.dal.utilitarios.PaginationHelper;
+@Name("manejadorProducto")
+@Scope(ScopeType.CONVERSATION)
 public class ManejadorProducto implements IManejadorProducto {
 
 	private FachadaServicio servicio;
+	private Producto producto;
 	
 	public ManejadorProducto(){	
 		servicio = FachadaServicio.getInstance();
@@ -36,6 +45,14 @@ public class ManejadorProducto implements IManejadorProducto {
 	public boolean modificarProducto(Producto producto){
 		return servicio.obtenerProductoServicio().modificar(producto);
 	}
+	public String asignar(Producto producto){
+		this.producto=producto;
+		return "/producto/ProductoEdit.xhtml";
+	}
+	public String listar(){
+		return "/producto/ListaProducto.xhtml";
+	}
+
 	
 	/* (non-Javadoc)
 	 * @see co.com.kallsony.bl.IManejadorProducto#consultarProductos()
@@ -87,5 +104,79 @@ public class ManejadorProducto implements IManejadorProducto {
 	public List<Producto> consultarRankingCategoriaMasVendidas(){
 		return (List<Producto>) servicio.obtenerProductoServicio().rankingCategoriaMasVendidas();
 	}
+
+	@Override
+	public PaginationHelper getPagination() {
+		return servicio.obtenerProductoServicio().getPagination();
+	}
+
+	@Override
+	public DataModel getItems() {
+		return servicio.obtenerProductoServicio().getItems();
+	}
+
+	@Override
+	public String next() {
+	  return servicio.obtenerProductoServicio().next();
+	}
+	
+
+	@Override
+	public String previous() {
+		return servicio.obtenerProductoServicio().previous();
+	}
+
+	@Override
+	public String getNombre() {
+		return servicio.obtenerProductoServicio().getNombre();
+	}
+
+	@Override
+	public void setNombre(String nombre) {
+	    servicio.obtenerProductoServicio().setNombre(nombre);
+		
+	}
+	public void recreateModel(){
+		servicio.obtenerProductoServicio().recreateModel();
+	}
+
+	@Override
+	public String getDescripcion() {
+		// TODO Auto-generated method stub
+		return servicio.obtenerProductoServicio().getDescripcion();
+	}
+
+	@Override
+	public void setDescripcion(String descripcion) {
+		servicio.obtenerProductoServicio().setDescripcion(descripcion);
+		
+	}
+
+	@Override
+	public String getProdId() {
+		// TODO Auto-generated method stub
+		return servicio.obtenerProductoServicio().getProdId();
+	}
+
+	@Override
+	public void setProdId(String prodId) {
+		 servicio.obtenerProductoServicio().setProdId(prodId);
+		
+	}
+
+	@Override
+	public boolean parametrosValidos() {
+		return servicio.obtenerProductoServicio().parametrosValidos();
+	}
+
+	public Producto getProducto() {
+		return producto;
+	}
+
+	public void setProducto(Producto producto) {
+		this.producto = producto;
+	}
+
+	
 	
 }
