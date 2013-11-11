@@ -1,6 +1,6 @@
 package co.com.kallsony.dal;
 
-import java.math.BigDecimal;
+import java.util.Calendar;
 
 import javax.faces.model.DataModel;
 
@@ -9,26 +9,29 @@ import co.com.kallsony.dal.utilitarios.PaginationHelper;
 
 public interface IProductoServicio {
 	
-	public boolean crear(Producto producto);
-	public boolean eliminar(Producto producto);
-	public boolean modificar(Producto producto);
-	public Object consultarProductos();
-	public Object consultarPorCodigo(Producto producto);
-	public Object consultarPorNombre(Producto producto);
-	public Object consultarPorDescripcion(Producto producto);
-	public Object rankingProductosMasVendidos();
-	public Object rankingCategoriaMasVendidas();
-	public PaginationHelper getPagination();
-	public DataModel getItems();
-	public String next();
-	public String previous();
-	public void recreateModel();
-	public String getNombre();
-	public void setNombre(String nombre);
-	public String getDescripcion();
-	public void setDescripcion(String descripcion);
-	public String getProdId();
-	public void setProdId(String prodId);
-	public boolean parametrosValidos();
+	boolean crearModificar(Producto producto);
+	boolean eliminar(Producto producto);
+	Object consultarProductos();
+	Object consultarPorCodigo(Producto producto);
+	Object consultarPorNombre(Producto producto);
+	Object consultarPorDescripcion(Producto producto);
+	Object rankingProductosMasVendidos();
+	Object rankingCategoriaMasVendidas();
+	PaginationHelper getPagination();
+	DataModel getItems();
+	String next();
+	String previous();
+	void recreateModel();
+	String getNombre();
+	void setNombre(String nombre);
+	String getDescripcion();
+	void setDescripcion(String descripcion);
+	String getProdId();
+	void setProdId(String prodId);
+	boolean parametrosValidos();
+	Calendar getFechaIni();
+	void setFechaIni(Calendar fechaIni);
+	Calendar getFechaFin();
+	void setFechaFin(Calendar fechaFin);
 
 }

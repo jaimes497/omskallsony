@@ -9,11 +9,9 @@ import co.com.kallsony.dal.utilitarios.PaginationHelper;
 
 public interface IManejadorProducto {
 
-	public boolean crearProducto(Producto producto);
+	public boolean registrarProducto(Producto producto);
 
 	public boolean eliminarProducto(Producto producto);
-
-	public boolean modificarProducto(Producto producto);
 
 	public List<Producto> consultarProductos();
 

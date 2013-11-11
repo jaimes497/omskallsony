@@ -9,9 +9,7 @@ import co.com.kallsony.dal.utilitarios.PaginationHelper;
 
 public interface IManejadorCampania {
 
-	public boolean crearCampania(Campania campania);
-
-	public boolean modificarCampania(Campania campania);
+	public boolean registrarCampania(Campania campania);
 
 	public boolean eliminarCampania(Campania campania);
 

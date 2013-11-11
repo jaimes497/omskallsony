@@ -1,16 +1,9 @@
 package co.com.kallsony.dal.utilitarios;
 
-import java.rmi.RemoteException;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-
 import javax.faces.model.DataModel;
 
-import org.jboss.seam.jsf.ListDataModel;
-
 public class PaginationHelperProducto extends PaginationHelper {
-private int tamaño;
+private int tamano;
 	public PaginationHelperProducto(int pageSize) {
 		super(pageSize);
 		// TODO Auto-generated constructor stub
@@ -18,7 +11,7 @@ private int tamaño;
 
 	 @Override
      public int getItemsCount() {
-   				return tamaño;
+   				return tamano;
 	   }
 
      @Override
@@ -28,8 +21,8 @@ private int tamaño;
      }
 
 
-	public void setTamaño(int tamaño) {
-		this.tamaño = tamaño;
+	public void setTamano(int tamano) {
+		this.tamano = tamano;
 	}
      
      

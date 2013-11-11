@@ -1,7 +1,7 @@
 package co.com.kallsony.dal;
 
 import java.rmi.RemoteException;
-import java.util.Arrays;
+import java.util.Calendar;
 
 import javax.faces.model.DataModel;
 
@@ -20,25 +20,21 @@ public class ProductoServicio implements IProductoServicio {
 	private String nombre = "";
 	private String descripcion = "";
 	private String prodId = "";
+	private Calendar fechaIni;
+	private Calendar fechaFin;
 
 	public ProductoServicio() {
 		productoServicePortTypeProxy = new ProductoServicePortTypeProxy();
 	}
 
 	@Override
-	public boolean crear(Producto producto) {
+	public boolean crearModificar(Producto producto) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean eliminar(Producto producto) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean modificar(Producto producto) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -83,7 +79,7 @@ public class ProductoServicio implements IProductoServicio {
 	public PaginationHelperProducto getPagination() {
 		if (pagination == null) {
 			pagination = new PaginationHelperProducto(25);
-			pagination.setTamaño(this.contarRegistros());
+			pagination.setTamano(this.contarRegistros());
 		}
 		return pagination;
 	}
@@ -192,6 +188,26 @@ public class ProductoServicio implements IProductoServicio {
 	@Override
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
+	}
+	
+	@Override
+	public Calendar getFechaIni() {
+		return fechaIni;
+	}
+
+	@Override
+	public void setFechaIni(Calendar fechaIni) {
+		this.fechaIni = fechaIni;
+	}
+
+	@Override
+	public Calendar getFechaFin() {
+		return fechaFin;
+	}
+
+	@Override
+	public void setFechaFin(Calendar fechaFin) {
+		this.fechaFin = fechaFin;
 	}
 
 	@Override

@@ -9,6 +9,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 
 import co.com.kallsony.bl.entidad.Campania;
+import co.com.kallsony.bl.entidad.Producto;
 import co.com.kallsony.dal.controlador.FachadaServicio;
 import co.com.kallsony.dal.utilitarios.PaginationHelper;
 @Name("manejadorCampania")
@@ -16,6 +17,7 @@ import co.com.kallsony.dal.utilitarios.PaginationHelper;
 public class ManejadorCampania implements IManejadorCampania {
 	
 	private FachadaServicio servicio;
+	private Campania campania;
 	
 	public ManejadorCampania(){	
 		servicio = FachadaServicio.getInstance();
@@ -25,16 +27,8 @@ public class ManejadorCampania implements IManejadorCampania {
 	 * @see co.com.kallsony.bl.IManejadorCampania#crearCampania(co.com.kallsony.bl.entidad.Campania)
 	 */
 	@Override
-	public boolean crearCampania(Campania campania){
-		return servicio.obtenerCampaniaServicio().crear(campania);
-	}
-	
-	/* (non-Javadoc)
-	 * @see co.com.kallsony.bl.IManejadorCampania#modificarCampania(co.com.kallsony.bl.entidad.Campania)
-	 */
-	@Override
-	public boolean modificarCampania(Campania campania){
-		return servicio.obtenerCampaniaServicio().modificar(campania);
+	public boolean registrarCampania(Campania campania){
+		return servicio.obtenerCampaniaServicio().crearModificar(campania);
 	}
 	
 	/* (non-Javadoc)
@@ -43,6 +37,15 @@ public class ManejadorCampania implements IManejadorCampania {
 	@Override
 	public boolean eliminarCampania(Campania campania){
 		return servicio.obtenerCampaniaServicio().eliminar(campania);
+	}
+	
+	public String asignar(Campania campania){
+		this.campania = campania;
+		return "/campania/CampaniaEdit.xhtml";
+	}
+	
+	public String listar(){
+		return "/campania/ListaCampania.xhtml";
 	}
 	
 	/* (non-Javadoc)
@@ -77,5 +80,30 @@ public class ManejadorCampania implements IManejadorCampania {
 		// TODO Auto-generated method stub
 		return servicio.obtenerCampaniaServicio().previous();
 	}
+
+	public Campania getCampania() {
+		return campania;
+	}
+
+	public void setCampania(Campania campania) {
+		this.campania = campania;
+	}
+	
+	public void recreateModel(){
+		servicio.obtenerCampaniaServicio().recreateModel();
+	}
+	
+	public boolean parametrosValidos() {
+		return servicio.obtenerCampaniaServicio().parametrosValidos();
+	}
+	
+	public String getCampaniaId() {
+		return servicio.obtenerCampaniaServicio().getCampaniaId();
+	}
+
+	public void setCampaniaId(String campaniaId) {
+		 servicio.obtenerCampaniaServicio().setCampaniaId(campaniaId);		
+	}
+		
 
 }

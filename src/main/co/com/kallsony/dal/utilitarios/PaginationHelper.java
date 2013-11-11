@@ -1,7 +1,5 @@
 package co.com.kallsony.dal.utilitarios;
 
-import java.util.List;
-
 import javax.faces.model.DataModel;
 
 public abstract class PaginationHelper {

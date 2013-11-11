@@ -19,6 +19,7 @@ public class Campania {
 		this.campaniaid = campaniaid;
 		this.prodid = prodid;
 	}
+	
 	public Campania(BigDecimal campaniaid, BigInteger prodid, String url,
 			Date fecIni, Date fecFin) {
 		this.campaniaid = campaniaid;

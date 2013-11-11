@@ -1,56 +1,89 @@
-<rich:toolBar
-    xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:s="http://jboss.com/products/seam/taglib"
-    xmlns:rich="http://richfaces.org/rich">
-    <rich:toolBarGroup>
-        <h:outputText value="#{projectName}:"/>
-        <s:link id="menuHomeId" view="/home.xhtml" value="Home" propagation="none"/>
-    </rich:toolBarGroup>
-    <!-- @newMenuItem@ -->
-    <rich:toolBarGroup location="right">
-        <h:outputText id="menuWelcomeId" value="signed in as: #{credentials.username}" rendered="#{identity.loggedIn}"/>
-        <s:link id="menuLoginId" view="/login.xhtml" value="Login" rendered="#{not identity.loggedIn}" propagation="none"/>
-        <s:link id="menuLogoutId" view="/home.xhtml" action="#{identity.logout}" value="Logout" rendered="#{identity.loggedIn}" propagation="none"/>
-    </rich:toolBarGroup>
-      <rich:dropDownMenu showDelay="250" hideDelay="0" submitMode="none">
-        <f:facet name="label">SERVICIOS</f:facet>
-	<rich:menuItem>
-    	<s:link view="/campania/ListaCampania.xhtml"
-           	value="Listado Campañas"
-          
-			includePageParams="false"
-     		propagation="none"/>
-     </rich:menuItem>
-     <rich:menuItem>
-    	<s:link view="/producto/ListaProducto.xhtml"
-           	value="Listado Productos"
-          
-			includePageParams="false"
-     		propagation="none"/>
-     </rich:menuItem>
-      <rich:menuItem>
-    	<s:link view="/campania/ListaCampania.xhtml"
-           	value="Listado Clientes"
-          
-			includePageParams="false"
-     		propagation="none"/>
-     </rich:menuItem>
-      <rich:menuItem>
-    	<s:link view="/campania/ListaCampania.xhtml"
-           	value="Listado Ordenes"
-          
-			includePageParams="false"
-     		propagation="none"/>
-     </rich:menuItem>
-     <rich:menuItem>
-    	<s:link view="/campania/ListaCampania.xhtml"
-           	value="Listado Usuarios"
-          
-			includePageParams="false"
-     		propagation="none"/>
-     </rich:menuItem>
-     </rich:dropDownMenu>
+<rich:toolBar xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich">
+	<rich:toolBarGroup>
+		<h:outputText value="#{projectName}:" />
+		<s:link id="menuHomeId" view="/home.xhtml" value="Inicio"
+			propagation="none" />
+	</rich:toolBarGroup>
+	<!-- @newMenuItem@ -->
+	<rich:toolBarGroup location="right">
+		<h:outputText id="menuWelcomeId"
+			value="Bienvenido: #{credentials.username}"
+			rendered="#{identity.loggedIn}" />
+		<s:link id="menuLoginId" view="/login.xhtml" value="Registro"
+			rendered="#{not identity.loggedIn}" propagation="none" />
+		<s:link id="menuLogoutId" view="/home.xhtml"
+			action="#{identity.logout}" value="Salir"
+			rendered="#{identity.loggedIn}" propagation="none" />
+	</rich:toolBarGroup>
+	<!-- PRODUCTOS -->
+	<rich:dropDownMenu showDelay="250" hideDelay="0" submitMode="none">
+		<f:facet name="label">Productos</f:facet>
+		<rich:menuItem>
+			<s:link view="/producto/Producto.xhtml" value="Administración de Productos"
+				includePageParams="false" propagation="none" />
+		</rich:menuItem>
+		<rich:menuGroup value="Consultas Especiales">
+			<rich:menuItem>
+				<s:link view="/producto/RankingProducto.xhtml" value="Ranking Produstos mas Vendidos"
+					includePageParams="false" propagation="none" />
+			</rich:menuItem>
+			<rich:menuItem>
+				<s:link view="/producto/RankingCategoria.xhtml" value="Ranking Categorias mas Vendidas"
+					includePageParams="false" propagation="none" />
+			</rich:menuItem>
+		</rich:menuGroup>
+	</rich:dropDownMenu>
+	<!-- CAMPANIAS -->
+	<rich:dropDownMenu showDelay="250" hideDelay="0" submitMode="none">
+		<f:facet name="label">Campañas</f:facet>
+		<rich:menuItem>
+			<s:link view="/campania/ListaCampania.xhtml" value="Administración de Campañas"
+				includePageParams="false" propagation="none" />
+		</rich:menuItem>
+	</rich:dropDownMenu>
+	<!-- ORDENES -->
+	<rich:dropDownMenu showDelay="250" hideDelay="0" submitMode="none">
+		<f:facet name="label">Ordenes</f:facet>
+		<rich:menuItem>
+			<s:link view="/orden/ListaOrden.xhtml" value="Administración de Ordenes"
+				includePageParams="false" propagation="none" />
+		</rich:menuItem>
+		<rich:menuGroup value="Consultas Especiales">
+			<rich:menuItem>
+				<s:link view="/orden/ListaCerradas.xhtml" value="Ordenes Cerradas"
+					includePageParams="false" propagation="none" />
+			</rich:menuItem>
+			<rich:menuItem>
+				<s:link view="/orden/RankingAbiertas.xhtml" value="Ranking Ordenes Ordenadas"
+					includePageParams="false" propagation="none" />
+			</rich:menuItem>
+			<rich:menuItem>
+				<s:link view="/orden/RankingFacturacion.xhtml" value="Ranking Facturación"
+					includePageParams="false" propagation="none" />
+			</rich:menuItem>
+		</rich:menuGroup>
+		<rich:menuItem>
+			<s:link view="/orden/Orden.xhtml" value="Actualizacion de Estado"
+				includePageParams="false" propagation="none" />
+		</rich:menuItem>
+	</rich:dropDownMenu>
+	<!-- CLIENTES -->
+	<rich:dropDownMenu showDelay="250" hideDelay="0" submitMode="none">
+		<f:facet name="label">Clientes</f:facet>
+		<rich:menuItem>
+			<s:link view="/cliente/ListaCliente.xhtml" value="Administración de Clientes"
+				includePageParams="false" propagation="none" />
+		</rich:menuItem>
+		<rich:menuGroup value="Consultas Especiales">
+			<rich:menuItem>
+				<s:link view="/cliente/RankingFacturacion.xhtml" value="Ranking Facturación"
+					includePageParams="false" propagation="none" />
+			</rich:menuItem>
+		</rich:menuGroup>
+	</rich:dropDownMenu>
 </rich:toolBar>

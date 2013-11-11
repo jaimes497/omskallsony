@@ -21,6 +21,16 @@ public class Cliente {
 	}
 	
 	public Cliente(String custid, String fname, String lname,
+			String phonenumber, String email, String status) {
+		this.custid = custid;
+		this.fname = fname;
+		this.lname = lname;
+		this.phonenumber = phonenumber;
+		this.email = email;
+		this.status = status;
+	}
+	
+	public Cliente(String custid, String fname, String lname,
 			String phonenumber, String email, String password,
 			String creditcardtype, String creditcardnumber, String status) {
 		this.custid = custid;

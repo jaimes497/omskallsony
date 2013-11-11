@@ -10,40 +10,47 @@ import co.com.kallsony.dal.OrdenServicio;
 import co.com.kallsony.dal.ProductoServicio;
 
 public class FachadaServicio {
-	
+
 	private static FachadaServicio instance = null;
-	 private static  CampaniaServicio campaniaServicio;
-	 private ProductoServicio productoServicio;
-	private FachadaServicio() {}
-	
+	private CampaniaServicio campaniaServicio;
+	private ProductoServicio productoServicio;
+	private ClienteServicio clienteServicio;
+	private OrdenServicio ordenServicio;
+
+	private FachadaServicio() {
+	}
+
 	public static FachadaServicio getInstance() {
 		if (instance == null) {
 			instance = new FachadaServicio();
-			
 		}
 		return instance;
 	}
-	
-	public ICampaniaServicio obtenerCampaniaServicio(){
-		if(campaniaServicio==null)
-		{ 
-			campaniaServicio=new CampaniaServicio();
+
+	public ICampaniaServicio obtenerCampaniaServicio() {
+		if (campaniaServicio == null) {
+			campaniaServicio = new CampaniaServicio();
 		}
 		return campaniaServicio;
 	}
-	
-	public IClienteServicio obtenerClienteServicio(){
-		return new ClienteServicio();
+
+	public IClienteServicio obtenerClienteServicio() {
+		if (clienteServicio == null) {
+			clienteServicio = new ClienteServicio();
+		}
+		return clienteServicio;
 	}
-	
-	public IOrdenServicio obtenerOrdenServicio(){
-		return new OrdenServicio();
+
+	public IOrdenServicio obtenerOrdenServicio() {
+		if (ordenServicio == null) {
+			ordenServicio = new OrdenServicio();
+		}
+		return ordenServicio;
 	}
-	
-	public IProductoServicio obtenerProductoServicio(){
-		if(productoServicio==null)
-		{ 
-			productoServicio=new ProductoServicio();
+
+	public IProductoServicio obtenerProductoServicio() {
+		if (productoServicio == null) {
+			productoServicio = new ProductoServicio();
 		}
 		return productoServicio;
 	}

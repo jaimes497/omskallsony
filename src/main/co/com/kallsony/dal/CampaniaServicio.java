@@ -2,72 +2,30 @@ package co.com.kallsony.dal;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.faces.model.DataModel;
 
-import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Scope;
+import modelowebservicecampania.CampaniaServiceProxy;
+
 import org.jboss.seam.jsf.ListDataModel;
 
-import modelowebservicecampania.CampaniaServiceProxy;
-import modelowebservicecampania.Campanna;
-
 import co.com.kallsony.bl.entidad.Campania;
-import co.com.kallsony.dal.utilitarios.PaginationHelper;
+import co.com.kallsony.dal.utilitarios.PaginationHelperCampania;
 import co.com.kallsony.dal.utilitarios.Tranformador;
 
 public class CampaniaServicio implements ICampaniaServicio {
-	 private PaginationHelper pagination;
-	 private DataModel items = null;
-	 private CampaniaServiceProxy campaniaServiceProxy; 
-	 
-	 
-	 public CampaniaServicio(){
-		 campaniaServiceProxy=new CampaniaServiceProxy();
-		 
-	 }
-	 
-	   
+	private PaginationHelperCampania pagination;
+	private DataModel items = null;
+	private CampaniaServiceProxy campaniaServiceProxy;
+	private String campaniaId = "";
 	
-	    public DataModel getItems() {
-	        if (items == null) {
-	            items = null;
-	        }
-	        return items;
-	    }
-
-	    private void recreateModel() {
-	        items = null;
-	    }
-
-	    private void recreatePagination() {
-	        pagination = null;
-	    }
-
-	    public String next() {
-	        getPagination().nextPage();
-	        recreateModel();
-	        return null;
-	    }
-
-	    public String previous() {
-	        getPagination().previousPage();
-	        recreateModel();
-	        return null;
-	    }
-
-	 
-	@Override
-	public boolean crear(Campania campania) {
-		// TODO Auto-generated method stub
-		return false;
+	public CampaniaServicio() {
+		campaniaServiceProxy = new CampaniaServiceProxy();
 	}
 
 	@Override
-	public boolean modificar(Campania campania) {
+	public boolean crearModificar(Campania campania) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -80,32 +38,113 @@ public class CampaniaServicio implements ICampaniaServicio {
 
 	@Override
 	public List<Campania> consultarCampanias() {
-		
-    	try {
-    		
-    	return Tranformador.convertirListaCampania(campaniaServiceProxy.findCampanias());
-    		
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public PaginationHelperCampania getPagination() {
+		if (pagination == null) {
+			pagination = new PaginationHelperCampania(25);
+			pagination.setTamano(this.contarRegistros());
+		}
+		return pagination;
+	}
+
+	public int contarRegistros() {
+		try {
+			return getCampaniaServiceProxy().getCampaniaService_PortType().findCampaniasCount();
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return null;
+			return 0;
 		}
+	}
+	
+	public DataModel paginarCampanias() {
+		try {
+//			modelowebservicecampania.Campanna[] list = getProductoServicePortTypeProxy()
+//					.findProductoPorParametrosRange(
+//							new int[] {
+//									this.getPagination().getPageFirstItem(),
+//									this.getPagination().getPageFirstItem()
+//											+ this.getPagination()
+//													.getPageSize() }, nombre,
+//							descripcion, prodId);
+			ArrayList<Object> list = new ArrayList<Object>();
+			if (list != null) {
+				
+				return new ListDataModel(Tranformador.convertirListaProducto(list));
+			}
+			return null;
+		} catch (Exception e) {//catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			return new ListDataModel();
+		}
+
+	}
+
+	@Override
+	public DataModel getItems() {
+		if (items == null) {
+			items = this.getPagination()
+					.createPageDataModel(paginarCampanias());
+		}
+		return items;
+	}
+
+	@Override
+	public void recreateModel() {
+		this.pagination = null;
+		this.items = null;
+	}
+
+	private void recreate() {
+		items = null;
+	}
+
+	@Override
+	public String next() {
+		getPagination().nextPage();
+		recreate();
+		return null;
+	}
+
+	@Override
+	public String previous() {
+		getPagination().previousPage();
+		recreate();
+		return null;
 	}
 
 	public CampaniaServiceProxy getCampaniaServiceProxy() {
-			return campaniaServiceProxy;
+		return campaniaServiceProxy;
 	}
 
-	public void setCampaniaServiceProxy(CampaniaServiceProxy campaniaServiceProxy) {
+	public void setCampaniaServiceProxy(
+			CampaniaServiceProxy campaniaServiceProxy) {
 		this.campaniaServiceProxy = campaniaServiceProxy;
 	}
-
-
+	
+	@Override
+	public boolean parametrosValidos() {
+//		if ((this.nombre != null && !this.nombre.isEmpty())
+//				|| (this.descripcion != null && !this.descripcion.isEmpty())
+//				|| (this.prodId != null && !this.prodId.isEmpty())) {
+//			return true;
+//		}
+//		return false;
+		return true;
+	}
 
 	@Override
-	public PaginationHelper getPagination() {
-		// TODO Auto-generated method stub
-		return null;
+	public String getCampaniaId() {
+		return campaniaId;
+	}
+
+	@Override
+	public void setCampaniaId(String campaniaId) {
+		this.campaniaId = campaniaId;
 	}
 	
 

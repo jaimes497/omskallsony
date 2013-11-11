@@ -24,6 +24,16 @@ public class Orden {
 	}
 	
 	public Orden(String ordid, Cliente cust, Date orderdate,
+			BigDecimal price, String status, String comments) {
+		this.ordid = ordid;
+		this.cust = cust;
+		this.orderdate = orderdate;
+		this.price = price;
+		this.status = status;
+		this.comments = comments;
+	}
+	
+	public Orden(String ordid, Cliente cust, Date orderdate,
 			BigDecimal price, String status, String comments, Set<DetalleOrden> items) {
 		this.ordid = ordid;
 		this.cust = cust;

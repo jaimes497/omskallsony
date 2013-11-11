@@ -1,44 +1,98 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:s="http://jboss.com/products/seam/taglib"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:rich="http://richfaces.org/rich"
-     xmlns:a="http://richfaces.org/a4j"
-    template="/layout/template.xhtml">
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j" template="/layout/template.xhtml">
 
-<ui:define name="body">
-<h:form>
-    
-                <h:panelGroup rendered="#{manejadorCampania.items.rowCount > 0}">
-                  
-                 
-                    
-                   
-                    <rich:dataGrid value="#{manejadorCampania.items}" var="item" columns="2" elements="8">
-                    <rich:panel>
-                    <f:facet name="header">Campaña</f:facet>
-                    <h:panelGrid columns="1">
-                    <h:graphicImage value="#{item.url}" />
-                    <a:commandButton value="Editar"></a:commandButton>
-                    </h:panelGrid>
-                    </rich:panel>
-                    </rich:dataGrid>
-                     <table width="50%" align="center" border="0px" class="dr-table rich-table">
-					<tr>
-						<td align="center" class="dr-subtable-cell rich-subtable-cell">
-						<h1>
-						<h:commandLink action="#{manejadorCampania.previous}" value="Atras" rendered="#{manejadorCampania.pagination.hasPreviousPage}"/> #{' '}
-						   <h:outputText value="#{manejadorCampania.pagination.pageFirstItem + 1} #{' '}.. #{' '} #{manejadorCampania.pagination.pageLastItem + 1}/#{manejadorCampania.pagination.itemsCount}"/>#{' '}
-						 <h:commandLink action="#{manejadorCampania.next}" value="Siguiente" rendered="#{manejadorCampania.pagination.hasNextPage}"/>#{' '}
-					</h1>
-							</td>
-						</tr>
+	<ui:define name="body">
+		<h:form id="formCampanias">
+			<rich:panel>
+			
+				<f:facet name="header">PANEL BUSQUEDA CAMPAÑAS</f:facet>
+
+				<s:decorate template="/layout/display.xhtml">
+					<ui:define name="label">Codigo Campania</ui:define>
+					<h:inputText id="nombre" value="#{manejadorCampania.campaniaId}" />
+				</s:decorate>
+
+				<div style="clear: both" />
+
+				<a:commandButton value="Buscar" reRender="list"
+					action="#{manejadorCampania.recreateModel()}"></a:commandButton>
+
+			</rich:panel>
+
+			<h:panelGroup id="list">
+				<h:panelGroup rendered="#{manejadorCampania.parametrosValidos()}">
+
+					<rich:dataTable var="_item" value="#{manejadorCampania.items}">
+
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Categoria" />
+							</f:facet>
+							<h:outputText value="#{_item.campaniaid}" />
+						</rich:column>
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Prod Id" />
+							</f:facet>
+							<h:outputText value="#{_item.prodid}" />
+						</rich:column>
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Fecha Inicio" />
+							</f:facet>
+							<h:outputText value="#{_item.fecIni}" />
+						</rich:column>
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Fecha Fin" />
+							</f:facet>
+							<h:outputText value="#{_item.fecFin}" />
+						</rich:column>
+
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Accion" />
+							</f:facet>
+							<a:commandLink value="Editar"
+								action="#{manejadorCampania.asignar(_item)}"></a:commandLink>
+						</rich:column>
+
+					</rich:dataTable>
+
+					<h:panelGroup rendered="#{manejadorCampania.items.rowCount > 0}">
+						<table width="50%" align="center" border="0px"
+							class="dr-table rich-table">
+							<tr>
+								<td align="center" class="dr-subtable-cell rich-subtable-cell">
+									<h1>
+										<a:commandLink reRender="list"
+											action="#{manejadorCampania.previous}" value="Atras"
+											rendered="#{manejadorCampania.pagination.hasPreviousPage}" />
+										#{' '}
+										<h:outputText
+											value="#{manejadorCampania.pagination.pageFirstItem + 1} #{' '}.. #{' '} #{manejadorCampania.pagination.pageLastItem + 1}/#{manejadorCampania.pagination.itemsCount}" />
+										#{' '}
+										<a:commandLink reRender="list"
+											action="#{manejadorCampania.next}"
+											rendered="#{manejadorCampania.pagination.hasNextPage}"
+											value="Siguiente" />
+										#{' '}
+									</h1>
+								</td>
+							</tr>
 						</table>
-                </h:panelGroup>
-      </h:form>          
-</ui:define>
+					</h:panelGroup>
+				</h:panelGroup>
+
+			</h:panelGroup>
+		</h:form>
+	</ui:define>
 
 </ui:composition>

@@ -1,5 +1,6 @@
 package co.com.kallsony.bl;
 
+import java.util.Calendar;
 import java.util.List;
 
 import javax.faces.model.DataModel;
@@ -11,6 +12,7 @@ import org.jboss.seam.annotations.Scope;
 import co.com.kallsony.bl.entidad.Producto;
 import co.com.kallsony.dal.controlador.FachadaServicio;
 import co.com.kallsony.dal.utilitarios.PaginationHelper;
+
 @Name("manejadorProducto")
 @Scope(ScopeType.CONVERSATION)
 public class ManejadorProducto implements IManejadorProducto {
@@ -22,33 +24,21 @@ public class ManejadorProducto implements IManejadorProducto {
 		servicio = FachadaServicio.getInstance();
 	}
 	
-	/* (non-Javadoc)
-	 * @see co.com.kallsony.bl.IManejadorProducto#crearProducto(co.com.kallsony.bl.entidad.Producto)
-	 */
 	@Override
-	public boolean crearProducto(Producto producto){
-		return servicio.obtenerProductoServicio().crear(producto);
+	public boolean registrarProducto(Producto producto){
+		return servicio.obtenerProductoServicio().crearModificar(producto);
 	}
 	
-	/* (non-Javadoc)
-	 * @see co.com.kallsony.bl.IManejadorProducto#eliminarProducto(co.com.kallsony.bl.entidad.Producto)
-	 */
 	@Override
 	public boolean eliminarProducto(Producto producto){
 		return servicio.obtenerProductoServicio().eliminar(producto);
 	}
 	
-	/* (non-Javadoc)
-	 * @see co.com.kallsony.bl.IManejadorProducto#modificarProducto(co.com.kallsony.bl.entidad.Producto)
-	 */
-	@Override
-	public boolean modificarProducto(Producto producto){
-		return servicio.obtenerProductoServicio().modificar(producto);
-	}
 	public String asignar(Producto producto){
 		this.producto=producto;
 		return "/producto/ProductoEdit.xhtml";
 	}
+	
 	public String listar(){
 		return "/producto/ListaProducto.xhtml";
 	}
@@ -136,6 +126,7 @@ public class ManejadorProducto implements IManejadorProducto {
 	    servicio.obtenerProductoServicio().setNombre(nombre);
 		
 	}
+	
 	public void recreateModel(){
 		servicio.obtenerProductoServicio().recreateModel();
 	}
@@ -163,6 +154,22 @@ public class ManejadorProducto implements IManejadorProducto {
 		 servicio.obtenerProductoServicio().setProdId(prodId);
 		
 	}
+	
+	public Calendar getFechaIni() {
+		return servicio.obtenerProductoServicio().getFechaIni();
+	}
+
+	public void setFechaIni(Calendar fechaIni) {
+		servicio.obtenerProductoServicio().setFechaIni(fechaIni);
+	}
+
+	public Calendar getFechaFin() {
+		return servicio.obtenerProductoServicio().getFechaIni();
+	}
+
+	public void setFechaFin(Calendar fechaFin) {
+		servicio.obtenerProductoServicio().setFechaFin(fechaFin);
+	}
 
 	@Override
 	public boolean parametrosValidos() {
@@ -176,7 +183,5 @@ public class ManejadorProducto implements IManejadorProducto {
 	public void setProducto(Producto producto) {
 		this.producto = producto;
 	}
-
-	
 	
 }

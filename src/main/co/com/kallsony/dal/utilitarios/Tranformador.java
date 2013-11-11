@@ -1,12 +1,10 @@
 package co.com.kallsony.dal.utilitarios;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import modelowebservice.Producto;
 import modelowebservicecampania.Campanna;
-
 import co.com.kallsony.bl.entidad.Campania;
 
 public class Tranformador {
@@ -19,8 +17,14 @@ public class Tranformador {
 		return null;
 	}
 	
-	public Object convertirProducto(){
-		return null;
+	public Object convertirProducto(Object producto){
+		Producto produc =  (Producto)producto;
+		return new co.com.kallsony.bl.entidad.Producto(produc.getProdid(),produc.getName(),produc.getDescription(),produc.getCategory(),produc.getListPrice(),produc.getProducer(),produc.getImageurl(),produc.getSmallImageurl());
+	}
+	
+	public Object convertirCampania(Object campania){
+		Campanna campana =  (Campanna)campania;
+		return new Campania(campana.getCampannaid(),campana.getProdid(),campana.getUrl(),campana.getFecIni(),campana.getFecFin());
 	}
 
 	public static List<Campania> convertirListaCampania(Object campania){
@@ -45,8 +49,26 @@ public class Tranformador {
 		
 	}
 
-	public Campania convertirCampania(){
-		return null;
+	public static List<Campania> convertirListaCliente(Object cliente){
+		
+		Campanna campaniaConvertir[]= (Campanna [])cliente;
+		List<Campania>listadoCampania=new ArrayList<Campania>();
+		for(Campanna campana:campaniaConvertir){
+			listadoCampania.add(new Campania(campana.getCampannaid(),campana.getProdid(),campana.getUrl(),campana.getFecIni(),campana.getFecFin()));
+		}
+		return listadoCampania;
+		
+	}
+	
+	public static List<Campania> convertirListaOrden(Object orden){
+		
+		Campanna campaniaConvertir[]= (Campanna [])orden;
+		List<Campania>listadoCampania=new ArrayList<Campania>();
+		for(Campanna campana:campaniaConvertir){
+			listadoCampania.add(new Campania(campana.getCampannaid(),campana.getProdid(),campana.getUrl(),campana.getFecIni(),campana.getFecFin()));
+		}
+		return listadoCampania;
+		
 	}
 
 
