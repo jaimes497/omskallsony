@@ -1,0 +1,66 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	template="/layout/template.xhtml">
+
+	<ui:define name="body">
+
+		<h:form id="orden" styleClass="edit">
+
+			<rich:panel>
+				<f:facet name="header">Orden</f:facet>
+
+				<s:decorate id="idOrdenField" template="/layout/edit.xhtml">
+					<ui:define name="label">Id Orden</ui:define>
+					<h:outputText value="#{manejadorOrden.orden.ordid}" />
+				</s:decorate>
+				<s:decorate id="clienteField" template="/layout/edit.xhtml">
+					<ui:define name="label">Cliente</ui:define>
+					<h:outputText value="#{manejadorOrden.orden.cust.custid} - #{manejadorOrden.orden.cust.fname} #{manejadorOrden.orden.cust.lname}" />
+				</s:decorate>
+				<s:decorate id="fechaField" template="/layout/edit.xhtml">
+					<ui:define name="label">Fecha</ui:define>
+					<h:outputText value="#{manejadorOrden.orden.orderdate}" />
+				</s:decorate>
+				<s:decorate id="precioField" template="/layout/edit.xhtml">
+					<ui:define name="label">Precio</ui:define>
+					<h:outputText value="#{manejadorOrden.orden.price}" />
+				</s:decorate>
+				<s:decorate id="estadoField" template="/layout/edit.xhtml">
+					<ui:define name="label">Estado</ui:define>
+					<h:outputText value="#{manejadorOrden.orden.status}" />
+				</s:decorate>
+				<s:decorate id="comentariosField" template="/layout/edit.xhtml">
+					<ui:define name="label">Comentarios</ui:define>
+					<h:outputText value="#{manejadorOrden.orden.comments}" />
+				</s:decorate>
+
+				<div style="clear: both">
+					<span class="required">*</span> Campos Requeridos
+				</div>
+
+			</rich:panel>
+
+			<div class="actionButtons">
+
+				<a:commandButton id="cancel"
+					action="#{manejadorOrden.cancelarOrden(manejadorOrden.orden)}"
+					value="Cancelar Orden" />
+				<h:commandButton id="delete" 
+				    action="#{manejadorOrden.eliminarOrden(manejadorOrden.orden)}"
+					value="Eliminar" />
+				<a:commandButton action="#{manejadorOrden.listar()}"
+					value="Salir" /> 
+
+			</div>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

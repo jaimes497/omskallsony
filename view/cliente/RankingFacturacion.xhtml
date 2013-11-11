@@ -1,0 +1,73 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j" template="/layout/template.xhtml">
+
+	<ui:define name="body">
+		<h:form id="formCliente">
+			<rich:panel>
+			
+				<f:facet name="header">PANEL BUSQUEDA CLIENTES</f:facet>
+
+				<s:decorate template="/layout/display.xhtml">
+					<ui:define name="label">Fecha Inicio</ui:define>
+					<rich:calendar value="#{manejadorCliente.fechaIni}" />
+				</s:decorate>
+				<s:decorate template="/layout/display.xhtml">
+					<ui:define name="label">Fecha Fin</ui:define>
+					<rich:calendar value="#{manejadorCliente.fechaFin}" />
+				</s:decorate>				
+
+				<div style="clear: both" />
+
+				<a:commandButton value="Buscar" reRender="list"
+					action="#{manejadorCliente.recreateModel()}"></a:commandButton>
+
+			</rich:panel>
+
+			<h:panelGroup id="list">
+				<h:panelGroup rendered="#{manejadorCliente.parametrosValidos()}">
+
+					<rich:dataTable var="_item" value="#{manejadorCliente.items}">
+
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Cust Id" />
+							</f:facet>
+							<h:outputText value="#{_item.custid}" />
+						</rich:column>
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Nombre" />
+							</f:facet>
+							<h:outputText value="#{_item.fname}" />
+						</rich:column>
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Apellido" />
+							</f:facet>
+							<h:outputText value="#{_item.lname}" />
+						</rich:column>
+
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Accion" />
+							</f:facet>
+							<a:commandLink value="Editar"
+								action="#{manejadorCliente.asignar(_item)}"></a:commandLink>
+						</rich:column>
+
+					</rich:dataTable>
+
+				</h:panelGroup>
+
+			</h:panelGroup>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

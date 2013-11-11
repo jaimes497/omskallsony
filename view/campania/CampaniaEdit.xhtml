@@ -1,0 +1,58 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	template="/layout/template.xhtml">
+
+	<ui:define name="body">
+
+		<h:form id="campania" styleClass="edit">
+
+			<rich:panel>
+				<f:facet name="header">Campania </f:facet>
+
+				<s:decorate id="idCampaniaField" template="/layout/edit.xhtml">
+					<ui:define name="label">Id Campania</ui:define>
+					<h:outputText value="#{manejadorCampania.campania.campaniaid}" />
+				</s:decorate>
+				<s:decorate id="fechaInicioField" template="/layout/edit.xhtml">
+					<ui:define name="label">Fecha Inicio</ui:define>
+					<h:inputText value="#{manejadorCampania.campania.fecIni}" />
+				</s:decorate>
+				<s:decorate id="fechaFinField" template="/layout/edit.xhtml">
+					<ui:define name="label">Fecha Fin</ui:define>
+					<h:inputText value="#{manejadorCampania.campania.fecFin}" />
+				</s:decorate>
+				<s:decorate id="productoField" template="/layout/edit.xhtml">
+					<ui:define name="label">Producto</ui:define>
+					<h:inputText value="#{manejadorCampania.campania.prodid}" />
+				</s:decorate>
+
+				<div style="clear: both">
+					<span class="required">*</span> Campos Requeridos
+				</div>
+
+			</rich:panel>
+
+			<div class="actionButtons">
+
+				<a:commandButton id="save"
+					action="#{manejadorCampania.registrarCampania(manejadorCampania.campania)}"
+					value="Guardar Cambios" />
+				<h:commandButton id="delete" 
+				    action="#{manejadorCampania.eliminarCampania(manejadorCampania.campania)}"
+					value="Eliminar" />
+				<a:commandButton action="#{manejadorCampania.listar()}"
+					value="Salir" />
+
+			</div>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

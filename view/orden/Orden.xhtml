@@ -1,0 +1,102 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j" template="/layout/template.xhtml">
+
+	<ui:define name="body">
+		<h:form id="formOrden">
+			<rich:panel>
+			
+				<f:facet name="header">PANEL BUSQUEDA ORDENES</f:facet>
+
+				<s:decorate template="/layout/display.xhtml">
+					<ui:define name="label">Codigo Orden</ui:define>
+					<h:inputText id="nombre" value="#{manejadorOrden.ordid}" />
+				</s:decorate>
+				<s:decorate template="/layout/display.xhtml">
+					<ui:define name="label">Codigo Producto</ui:define>
+					<h:inputText id="nombre" value="#{manejadorOrden.prodId}" />
+				</s:decorate>
+
+				<div style="clear: both" />
+
+				<a:commandButton value="Buscar" reRender="list"
+					action="#{manejadorOrden.recreateModel()}"></a:commandButton>
+
+			</rich:panel>
+
+			<h:panelGroup id="list">
+				<h:panelGroup rendered="#{manejadorOrden.parametrosValidos()}">
+
+					<rich:dataTable var="_item" value="#{manejadorOrden.items}">
+
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Orden" />
+							</f:facet>
+							<h:outputText value="#{_item.ordid}" />
+						</rich:column>
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Fecha" />
+							</f:facet>
+							<h:outputText value="#{_item.orderdate}" />
+						</rich:column>
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Precio" />
+							</f:facet>
+							<h:outputText value="#{_item.price}" />
+						</rich:column>
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Estado" />
+							</f:facet>
+							<h:outputText value="#{_item.status}" />
+						</rich:column>
+
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Accion" />
+							</f:facet>
+							<a:commandLink value="Actualizar"
+								action="#{manejadorOrden.asignar(_item)}"></a:commandLink>
+						</rich:column>
+
+					</rich:dataTable>
+
+					<h:panelGroup rendered="#{manejadorOrden.items.rowCount > 0}">
+						<table width="50%" align="center" border="0px"
+							class="dr-table rich-table">
+							<tr>
+								<td align="center" class="dr-subtable-cell rich-subtable-cell">
+									<h1>
+										<a:commandLink reRender="list"
+											action="#{manejadorOrden.previous}" value="Atras"
+											rendered="#{manejadorOrden.pagination.hasPreviousPage}" />
+										#{' '}
+										<h:outputText
+											value="#{manejadorOrden.pagination.pageFirstItem + 1} #{' '}.. #{' '} #{manejadorOrden.pagination.pageLastItem + 1}/#{manejadorOrden.pagination.itemsCount}" />
+										#{' '}
+										<a:commandLink reRender="list"
+											action="#{manejadorOrden.next}"
+											rendered="#{manejadorOrden.pagination.hasNextPage}"
+											value="Siguiente" />
+										#{' '}
+									</h1>
+								</td>
+							</tr>
+						</table>
+					</h:panelGroup>
+				</h:panelGroup>
+
+			</h:panelGroup>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

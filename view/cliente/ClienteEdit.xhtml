@@ -1,0 +1,67 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	template="/layout/template.xhtml">
+
+	<ui:define name="body">
+
+		<h:form id="cliente" styleClass="edit">
+
+			<rich:panel>
+				<f:facet name="header">Cliente #{manejadorCliente.cliente.fname} #{' '} #{manejadorCliente.cliente.lname}</f:facet>
+
+				<s:decorate id="idClienteField" template="/layout/edit.xhtml">
+					<ui:define name="label">Id Cliente</ui:define>
+					<h:outputText value="#{manejadorCliente.cliente.custid}" />
+				</s:decorate>
+				<s:decorate id="nombreField" template="/layout/edit.xhtml">
+					<ui:define name="label">Nombre</ui:define>
+					<h:inputText value="#{manejadorCliente.cliente.fname}" />
+				</s:decorate>
+				<s:decorate id="apellidoField" template="/layout/edit.xhtml">
+					<ui:define name="label">Apellido</ui:define>
+					<h:inputText value="#{manejadorCliente.cliente.lname}" />
+				</s:decorate>
+				<s:decorate id="telefonoField" template="/layout/edit.xhtml">
+					<ui:define name="label">Telefono</ui:define>
+					<h:inputText value="#{manejadorCliente.cliente.phonenumber}" />
+				</s:decorate>
+				<s:decorate id="correoField" template="/layout/edit.xhtml">
+					<ui:define name="label">Correo Electronico</ui:define>
+					<h:outputText value="#{manejadorCliente.cliente.email}" />
+				</s:decorate>
+				<s:decorate id="estadoField" template="/layout/edit.xhtml">
+					<ui:define name="label">Estado/Categoria</ui:define>
+					<h:selectOneMenu value="#{manejadorCliente.cliente.status}">
+						<f:selectItem itemValue="DORADO" itemLabel="Dorado" />
+						<f:selectItem itemValue="PLATEADO" itemLabel="Plateado" />
+						<f:selectItem itemValue="PLATINO" itemLabel="Platino" />
+					</h:selectOneMenu>
+				</s:decorate>
+
+				<div style="clear: both">
+					<span class="required">*</span> Campos Requeridos
+				</div>
+
+			</rich:panel>
+
+			<div class="actionButtons">
+
+				<a:commandButton id="save"
+					action="#{manejadorCliente.registrarCliente(manejadorCliente.cliente)}"
+					value="Guardar Cambios" />
+				<a:commandButton action="#{manejadorCliente.listar()}"
+					value="Salir" />
+
+			</div>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>
