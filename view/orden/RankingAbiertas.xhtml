@@ -11,7 +11,7 @@
 	<ui:define name="body">
 		<h:form id="formOrdenAbiestras">
 
-			<rich:dataTable var="_item" value="#{manejadorOrden.items}">
+			<rich:dataTable var="_item" value="#{manejadorOrden.consultarRankingOrdensAbiertas()}">
 
 				<rich:column>
 					<f:facet name="header">

@@ -6,8 +6,10 @@ import co.com.kallsony.dal.ICampaniaServicio;
 import co.com.kallsony.dal.IClienteServicio;
 import co.com.kallsony.dal.IOrdenServicio;
 import co.com.kallsony.dal.IProductoServicio;
+import co.com.kallsony.dal.ISeguridadServicio;
 import co.com.kallsony.dal.OrdenServicio;
 import co.com.kallsony.dal.ProductoServicio;
+import co.com.kallsony.dal.SeguridadServicio;
 
 public class FachadaServicio {
 
@@ -16,6 +18,7 @@ public class FachadaServicio {
 	private ProductoServicio productoServicio;
 	private ClienteServicio clienteServicio;
 	private OrdenServicio ordenServicio;
+	private SeguridadServicio seguridadServicio;
 
 	private FachadaServicio() {
 	}
@@ -53,6 +56,13 @@ public class FachadaServicio {
 			productoServicio = new ProductoServicio();
 		}
 		return productoServicio;
+	}
+	
+	public ISeguridadServicio obtenerSeguridadServicio() {
+		if (seguridadServicio == null) {
+			seguridadServicio = new SeguridadServicio();
+		}
+		return seguridadServicio;
 	}
 
 }

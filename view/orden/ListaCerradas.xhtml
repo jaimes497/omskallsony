@@ -26,48 +26,28 @@
 				<div style="clear: both" />
 
 				<a:commandButton value="Buscar" reRender="list"
-					action="#{manejadorOrden.recreateModel()}"></a:commandButton>
+					action="#{manejadorOrden.consultarOrdenes()}"></a:commandButton>
 
 			</rich:panel>
 
 			<h:panelGroup id="list">
 				<h:panelGroup rendered="#{manejadorOrden.parametrosValidos()}">
 
-					<rich:dataTable var="_item" value="#{manejadorOrden.items}">
+					<rich:dataTable var="_item" value="#{manejadorOrden.ordenesTotal}">
 
 						<rich:column>
 							<f:facet name="header">
-								<h:outputText value="Orden" />
+								<h:outputText value="Total Ordenes" />
 							</f:facet>
-							<h:outputText value="#{_item.ordid}" />
+							<h:outputText value="#{_item.total}" />
 						</rich:column>
 						<rich:column>
 							<f:facet name="header">
-								<h:outputText value="Fecha" />
-							</f:facet>
-							<h:outputText value="#{_item.orderdate}" />
-						</rich:column>
-						<rich:column>
-							<f:facet name="header">
-								<h:outputText value="Precio" />
+								<h:outputText value="Total Facturado" />
 							</f:facet>
 							<h:outputText value="#{_item.price}" />
 						</rich:column>
-						<rich:column>
-							<f:facet name="header">
-								<h:outputText value="Estado" />
-							</f:facet>
-							<h:outputText value="#{_item.status}" />
-						</rich:column>
-
-						<rich:column>
-							<f:facet name="header">
-								<h:outputText value="Accion" />
-							</f:facet>
-							<a:commandLink value="Editar"
-								action="#{manejadorOrden.asignar(_item)}"></a:commandLink>
-						</rich:column>
-
+						
 					</rich:dataTable>
 
 				</h:panelGroup>

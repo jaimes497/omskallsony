@@ -5,31 +5,21 @@ import java.util.Calendar;
 import javax.faces.model.DataModel;
 
 import co.com.kallsony.bl.entidad.Orden;
-import co.com.kallsony.dal.utilitarios.PaginationHelper;
+import co.com.kallsony.dal.utilitarios.PaginationHelperOrden;
 
 public interface IOrdenServicio {
 	
 	boolean cancelar(Orden orden);
 	boolean eliminar(Orden orden);
-	Object consultarOrdenes();
 	Object consultarPorId(Orden orden);
-	Object consultarPorProducto(Orden orden);
-	Object consultarPorMes(String mes);
+	Object consultarPorMes(Calendar fechaIni, Calendar fechaFin);
 	Object rankingOrdenesAbiertas();
-	Object rankingOrdenesCerradas();
-	PaginationHelper getPagination();
+	Object rankingOrdenesCerradas(Calendar fechaIni, Calendar fechaFin);
+	PaginationHelperOrden getPagination();
 	DataModel getItems();
+	void recreateModel();
 	String next();
 	String previous();
-	void recreateModel();
-	boolean parametrosValidos();
-	String getOrdid();
-	void setOrdid(String ordid);
-	String getProdId();
-	void setProdId(String prodId);	
-	Calendar getFechaIni();
-	void setFechaIni(Calendar fechaIni);
-	Calendar getFechaFin();
-	void setFechaFin(Calendar fechaFin);
+	void setProdId(String prodId);
 
 }

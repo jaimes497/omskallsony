@@ -11,46 +11,8 @@
 
 	<ui:define name="body">
 
-		<h:form id="producto" styleClass="edit">
-
-			<rich:panel>
-				<f:facet name="header">PANEL ADMINISTRACIÓN DE PRODUCTOS</f:facet>
-
-				<s:decorate id="idProductoField" template="/layout/edit.xhtml">
-					<ui:define name="label">Id Producto</ui:define>
-					<h:outputText value="#{manejadorProducto.producto.prodid}" />
-				</s:decorate>
-				<s:decorate id="nombreField" template="/layout/edit.xhtml">
-					<ui:define name="label">Nombre</ui:define>
-					<h:inputText value="#{manejadorProducto.producto.name}" />
-				</s:decorate>
-				<s:decorate id="descripcionField" template="/layout/edit.xhtml">
-					<ui:define name="label">Descripcion</ui:define>
-					<h:inputText value="#{manejadorProducto.producto.description}" />
-				</s:decorate>
-				<s:decorate id="categoriaField" template="/layout/edit.xhtml">
-					<ui:define name="label">Categoria</ui:define>
-					<h:inputText value="#{manejadorProducto.producto.category}" />
-				</s:decorate>
-				<s:decorate id="precioField" template="/layout/edit.xhtml">
-					<ui:define name="label">Precio</ui:define>
-					<h:inputText value="#{manejadorProducto.producto.listPrice}" />
-				</s:decorate>
-				<s:decorate id="fabricanteField" template="/layout/edit.xhtml">
-					<ui:define name="label">Fabricante</ui:define>
-					<h:inputText value="#{manejadorProducto.producto.producer}" />
-				</s:decorate>
-
-				<div style="clear: both">
-					<span class="required">*</span> Campos Requeridos
-				</div>
-
-				<a:commandButton id="save"
-					action="#{manejadorProducto.registrarProducto(manejadorProducto.producto)}"
-					value="Guardar Cambios" />
-
-			</rich:panel>
-
+		<h:form id="formProducto" styleClass="edit">
+		
 			<rich:panel>
 				<f:facet name="header">PANEL BUSQUEDA PRODUCTOS</f:facet>
 
@@ -66,6 +28,7 @@
 					<ui:define name="label">Descripcion</ui:define>
 					<h:inputText id="nombre" value="#{manejadorProducto.descripcion}" />
 				</s:decorate>
+				
 				<div style="clear: both" />
 
 				<a:commandButton value="Buscar" reRender="list"
@@ -95,38 +58,28 @@
 							<f:facet name="header">
 								<h:outputText value="Accion" />
 							</f:facet>
-							<a:commandLink value="Editar"
-								action="#{manejadorProducto.asignar(_item)}"></a:commandLink>
+							<a:commandLink value="Editar" action="#{manejadorProducto.asignar(_item)}" />
 						</rich:column>
 
 					</rich:dataTable>
-
-					<h:panelGroup rendered="#{manejadorProducto.items.rowCount > 0}">
-						<table width="50%" align="center" border="0px"
-							class="dr-table rich-table">
+   
+					<h:panelGroup rendered="#{manejadorProducto.items.rowCount > 0}">    
+                    	<table width="50%" align="center" border="0px" class="dr-table rich-table">
 							<tr>
 								<td align="center" class="dr-subtable-cell rich-subtable-cell">
-									<h1>
-										<a:commandLink reRender="list"
-											action="#{manejadorProducto.previous}" value="Atras"
-											rendered="#{manejadorProducto.pagination.hasPreviousPage}" />
-										#{' '}
-										<h:outputText
-											value="#{manejadorProducto.pagination.pageFirstItem + 1} #{' '}.. #{' '} #{manejadorProducto.pagination.pageLastItem + 1}/#{manejadorProducto.pagination.itemsCount}" />
-										#{' '}
-										<a:commandLink reRender="list"
-											action="#{manejadorProducto.next}"
-											rendered="#{manejadorProducto.pagination.hasNextPage}"
-											value="Siguiente" />
-										#{' '}
-									</h1>
+								<h1>
+								<a:commandLink reRender="list" action="#{manejadorProducto.previous}" value="Atras" rendered="#{manejadorProducto.pagination.hasPreviousPage}" /> #{' '}
+						   		<h:outputText value="#{manejadorProducto.pagination.pageFirstItem + 1} #{' '}.. #{' '} #{manejadorProducto.pagination.pageLastItem + 1}/#{manejadorProducto.pagination.itemsCount}"/>#{' '}
+						 		<a:commandLink reRender="list" action="#{manejadorProducto.next}" rendered="#{manejadorProducto.pagination.hasNextPage}" value="Siguiente" />#{' '}
+								</h1>
 								</td>
 							</tr>
 						</table>
 					</h:panelGroup>
+					
 				</h:panelGroup>
 			</h:panelGroup>
-
+			
 		</h:form>
 
 	</ui:define>

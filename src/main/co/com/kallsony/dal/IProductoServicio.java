@@ -11,12 +11,8 @@ public interface IProductoServicio {
 	
 	boolean crearModificar(Producto producto);
 	boolean eliminar(Producto producto);
-	Object consultarProductos();
-	Object consultarPorCodigo(Producto producto);
-	Object consultarPorNombre(Producto producto);
-	Object consultarPorDescripcion(Producto producto);
-	Object rankingProductosMasVendidos();
-	Object rankingCategoriaMasVendidas();
+	Object rankingProductosMasVendidos(Calendar fechaIni, Calendar fechaFin);
+	Object rankingCategoriaMasVendidas(Calendar fechaIni, Calendar fechaFin);
 	PaginationHelper getPagination();
 	DataModel getItems();
 	String next();
@@ -28,10 +24,5 @@ public interface IProductoServicio {
 	void setDescripcion(String descripcion);
 	String getProdId();
 	void setProdId(String prodId);
-	boolean parametrosValidos();
-	Calendar getFechaIni();
-	void setFechaIni(Calendar fechaIni);
-	Calendar getFechaFin();
-	void setFechaFin(Calendar fechaFin);
 
 }

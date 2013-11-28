@@ -15,6 +15,8 @@
 
 			<rich:panel>
 				<f:facet name="header">Campania </f:facet>
+				
+				<h:graphicImage value="/image/#{manejadorCampania.campania.url}" rendered="#{manejadorCampania.campania.url} != null"/>
 
 				<s:decorate id="idCampaniaField" template="/layout/edit.xhtml">
 					<ui:define name="label">Id Campania</ui:define>
@@ -22,19 +24,28 @@
 				</s:decorate>
 				<s:decorate id="fechaInicioField" template="/layout/edit.xhtml">
 					<ui:define name="label">Fecha Inicio</ui:define>
-					<h:inputText value="#{manejadorCampania.campania.fecIni}" />
+					<rich:calendar value="#{manejadorCampania.campania.fecIni}" />
 				</s:decorate>
 				<s:decorate id="fechaFinField" template="/layout/edit.xhtml">
 					<ui:define name="label">Fecha Fin</ui:define>
-					<h:inputText value="#{manejadorCampania.campania.fecFin}" />
+					<rich:calendar value="#{manejadorCampania.campania.fecFin}" />
 				</s:decorate>
 				<s:decorate id="productoField" template="/layout/edit.xhtml">
 					<ui:define name="label">Producto</ui:define>
 					<h:inputText value="#{manejadorCampania.campania.prodid}" />
 				</s:decorate>
-
+				
+				<s:decorate id="imagenUField" template="/layout/edit.xhtml">
+					<ui:define name="label">Imagen</ui:define>
+					<rich:fileUpload
+						addControlLabel="Examinar" ajaxSingle="true" fileUploadListener="#{archivoLogo.listener}"
+						clearControlLabel="Borrar" progressLabel="Cargando..." immediateUpload="true"
+						sizeErrorLabel="Error excedio los 10KB" immediate="true" maxFilesQuantity="10"
+						listHeight="60" listWidth="300" style="width:50%" clearAllControlLabel="Borrar Todos">
+					</rich:fileUpload>
+				</s:decorate>
+				
 				<div style="clear: both">
-					<span class="required">*</span> Campos Requeridos
 				</div>
 
 			</rich:panel>

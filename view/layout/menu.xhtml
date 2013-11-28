@@ -1,14 +1,16 @@
-<rich:toolBar xmlns="http://www.w3.org/1999/xhtml"
+<rich:toolBar width="100" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:s="http://jboss.com/products/seam/taglib"
 	xmlns:rich="http://richfaces.org/rich">
+    <!--  
 	<rich:toolBarGroup>
 		<h:outputText value="#{projectName}:" />
 		<s:link id="menuHomeId" view="/home.xhtml" value="Inicio"
 			propagation="none" />
 	</rich:toolBarGroup>
+	-->
 	<!-- @newMenuItem@ -->
 	<rich:toolBarGroup location="right">
 		<h:outputText id="menuWelcomeId"
@@ -20,13 +22,19 @@
 			action="#{identity.logout}" value="Salir"
 			rendered="#{identity.loggedIn}" propagation="none" />
 	</rich:toolBarGroup>
-	<!-- PRODUCTOS -->
+	<!--
 	<rich:dropDownMenu showDelay="250" hideDelay="0" submitMode="none">
 		<f:facet name="label">Productos</f:facet>
-		<rich:menuItem>
-			<s:link view="/producto/Producto.xhtml" value="Administración de Productos"
-				includePageParams="false" propagation="none" />
-		</rich:menuItem>
+		<rich:menuGroup value="Administración de Productos">
+			<rich:menuItem>
+				<s:link view="/producto/ProductoNuevo.xhtml" value="Registrar Producto"
+					includePageParams="false" propagation="none" />
+			</rich:menuItem>
+			<rich:menuItem>
+				<s:link view="/producto/Producto.xhtml" value="Administrar Producto"
+					includePageParams="false" propagation="none" />
+			</rich:menuItem>
+		</rich:menuGroup>
 		<rich:menuGroup value="Consultas Especiales">
 			<rich:menuItem>
 				<s:link view="/producto/RankingProducto.xhtml" value="Ranking Produstos mas Vendidos"
@@ -38,7 +46,7 @@
 			</rich:menuItem>
 		</rich:menuGroup>
 	</rich:dropDownMenu>
-	<!-- CAMPANIAS -->
+	
 	<rich:dropDownMenu showDelay="250" hideDelay="0" submitMode="none">
 		<f:facet name="label">Campañas</f:facet>
 		<rich:menuItem>
@@ -46,7 +54,7 @@
 				includePageParams="false" propagation="none" />
 		</rich:menuItem>
 	</rich:dropDownMenu>
-	<!-- ORDENES -->
+	
 	<rich:dropDownMenu showDelay="250" hideDelay="0" submitMode="none">
 		<f:facet name="label">Ordenes</f:facet>
 		<rich:menuItem>
@@ -72,7 +80,7 @@
 				includePageParams="false" propagation="none" />
 		</rich:menuItem>
 	</rich:dropDownMenu>
-	<!-- CLIENTES -->
+	
 	<rich:dropDownMenu showDelay="250" hideDelay="0" submitMode="none">
 		<f:facet name="label">Clientes</f:facet>
 		<rich:menuItem>
@@ -86,4 +94,5 @@
 			</rich:menuItem>
 		</rich:menuGroup>
 	</rich:dropDownMenu>
+	-->
 </rich:toolBar>

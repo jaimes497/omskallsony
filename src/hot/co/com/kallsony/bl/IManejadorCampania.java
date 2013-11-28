@@ -2,21 +2,16 @@ package co.com.kallsony.bl;
 
 import java.util.List;
 
-import javax.faces.model.DataModel;
-
 import co.com.kallsony.bl.entidad.Campania;
-import co.com.kallsony.dal.utilitarios.PaginationHelper;
 
 public interface IManejadorCampania {
+	
+	String pathVirtual = "c:" + System.getProperty("file.separator") + "Temp" + System.getProperty("file.separator") + "images";
 
-	public boolean registrarCampania(Campania campania);
+	boolean registrarCampania(Campania campania);
 
-	public boolean eliminarCampania(Campania campania);
+	boolean eliminarCampania(Campania campania);
 
-	public List<Campania> consultarCampanias();
-	public PaginationHelper getPagination();
-	public DataModel getItems();
-	public String next();
-	public String previous();
-
+	List<Campania> consultarCampanias();
+	
 }

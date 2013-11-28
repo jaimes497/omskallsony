@@ -13,11 +13,17 @@ public class Producto {
 	private String imageurl;
 	private String smallImageurl;
 	
+	public Producto(){		
+	}
+	
+	public Producto(BigDecimal prodid, String name) {
+		this.prodid = prodid;
+		this.name = name;
+	}
+	
 	public Producto(BigDecimal prodid, String name, String description,
 			String category, BigDecimal listPrice, String producer,
 			String imageurl, String smallImageurl) {
-		super();
-
 		this.prodid = prodid;
 		this.name = name;
 		this.description = description;

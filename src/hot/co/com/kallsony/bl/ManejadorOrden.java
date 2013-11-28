@@ -1,6 +1,7 @@
 package co.com.kallsony.bl;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.model.DataModel;
@@ -10,6 +11,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 
 import co.com.kallsony.bl.entidad.Orden;
+import co.com.kallsony.bl.entidad.OrdenTotal;
 import co.com.kallsony.dal.controlador.FachadaServicio;
 import co.com.kallsony.dal.utilitarios.PaginationHelper;
 
@@ -19,9 +21,20 @@ public class ManejadorOrden implements IManejadorOrden {
 	
 	private FachadaServicio servicio;
 	private Orden orden;
+	private Orden ordenConsultada;
+	private List<Orden> ordenes;
+	private List<OrdenTotal> ordenesTotal;
+	private String ordid = "";
+	private String prodId = "";
+	private Date fechaIni;
+	private Date fechaFin;
+	private boolean flag;
+	private boolean flag2;
 	
 	public ManejadorOrden(){	
 		servicio = FachadaServicio.getInstance();
+		flag = false;
+		flag2 = false;
 	}
 	
 	/* (non-Javadoc)
@@ -40,33 +53,36 @@ public class ManejadorOrden implements IManejadorOrden {
 		return servicio.obtenerOrdenServicio().eliminar(orden);
 	}
 	
-	/* (non-Javadoc)
-	 * @see co.com.kallsony.bl.IManejadorOrden#consultarOrdenes()
-	 */
-	@Override
+	public void consultarOrdenesPorID(String ordid) {
+		Orden ord = new Orden();
+		ord.setOrdid(ordid);
+		ordenConsultada = (Orden) servicio.obtenerOrdenServicio().consultarPorId(ord);
+		flag = true;
+		this.ordid = "";
+	}
+	
 	@SuppressWarnings("unchecked")
-	public List<Orden> consultarOrdenes(){
-		return (List<Orden>) servicio.obtenerOrdenServicio().consultarOrdenes();
+	public void consultarOrdenes() {
+		Calendar ini = Calendar.getInstance();
+		Calendar fin = Calendar.getInstance();
+		ini.setTime(fechaIni);
+		fin.setTime(fechaFin);
+		
+		ordenesTotal = (List<OrdenTotal>) servicio.obtenerOrdenServicio().consultarPorMes(ini, fin);
 	}
 	
-	/* (non-Javadoc)
-	 * @see co.com.kallsony.bl.IManejadorOrden#consultarOrdenPorNumero(co.com.kallsony.bl.entidad.Orden)
-	 */
-	@Override
-	public Orden consultarOrdenPorNumero(Orden orden){
-		return (Orden) servicio.obtenerOrdenServicio().consultarPorId(orden);
+	public void recreate() {
+		servicio.obtenerOrdenServicio().setProdId(prodId);
+		servicio.obtenerOrdenServicio().recreateModel();
+		flag2 = true;
+		this.prodId = "";
 	}
 	
-	/* (non-Javadoc)
-	 * @see co.com.kallsony.bl.IManejadorOrden#consultarOrdenPorFecha(int, java.lang.String)
-	 */
-	@Override
-	public Orden consultarOrdenPorFecha(int tipoConsulta, String filtro){
-		if (tipoConsulta == 1) {
-			return (Orden) servicio.obtenerOrdenServicio().consultarPorMes(filtro);
-		} else {
-			System.out.println("Opcion no soportada");
-			return null;
+	public void consultar() {
+		if (this.ordid != null && !this.ordid.isEmpty()) {
+			consultarOrdenesPorID(ordid);
+		} else if (this.prodId != null && !this.prodId.isEmpty()) {
+			recreate();
 		}
 	}
 	
@@ -76,7 +92,8 @@ public class ManejadorOrden implements IManejadorOrden {
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Orden> consultarRankingOrdensAbiertas(){
-		return (List<Orden>) servicio.obtenerOrdenServicio().rankingOrdenesAbiertas();
+		this.ordenes = (List<Orden>) servicio.obtenerOrdenServicio().rankingOrdenesAbiertas();
+		return this.ordenes;
 	}
 	
 	/* (non-Javadoc)
@@ -84,47 +101,48 @@ public class ManejadorOrden implements IManejadorOrden {
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Orden> consultarRankingOrdensCerradas(){
-		return (List<Orden>) servicio.obtenerOrdenServicio().rankingOrdenesCerradas();
+	public void consultarRankingOrdensCerradas(){
+		Calendar ini = Calendar.getInstance();
+		Calendar fin = Calendar.getInstance();
+		ini.setTime(fechaIni);
+		fin.setTime(fechaFin);
+		
+		this.ordenes = (List<Orden>) servicio.obtenerOrdenServicio().rankingOrdenesCerradas(ini, fin);
 	}
 	
 	public String asignar(Orden orden){
 		this.orden=orden;
+		this.ordenConsultada = null;
+		flag = false;
+		flag2 = false;
 		return "/orden/OrdenEdit.xhtml";
 	}
 	
 	public String listar(){
 		return "/orden/ListaOrden.xhtml";
 	}
+		
+	public boolean parametrosValidos() {
+		if ((this.fechaIni != null && this.fechaFin != null)) {
+			return true;
+		}
+		return false;
+	}
 	
-	@Override
 	public PaginationHelper getPagination() {
 		return servicio.obtenerOrdenServicio().getPagination();
 	}
 
-	@Override
 	public DataModel getItems() {
 		return servicio.obtenerOrdenServicio().getItems();
 	}
 
-	@Override
 	public String next() {
-	  return servicio.obtenerOrdenServicio().next();
+		return servicio.obtenerOrdenServicio().next();
 	}
-	
 
-	@Override
 	public String previous() {
 		return servicio.obtenerOrdenServicio().previous();
-	}
-	
-	public void recreateModel(){
-		servicio.obtenerOrdenServicio().recreateModel();
-	}
-	
-	@Override
-	public boolean parametrosValidos() {
-		return servicio.obtenerOrdenServicio().parametrosValidos();
 	}
 
 	public Orden getOrden() {
@@ -136,35 +154,55 @@ public class ManejadorOrden implements IManejadorOrden {
 	}
 	
 	public String getOrdid() {
-		return servicio.obtenerOrdenServicio().getOrdid();
+		return ordid;
 	}
 
 	public void setOrdid(String ordid) {
-		servicio.obtenerOrdenServicio().setOrdid(ordid);
+		this.ordid = ordid;
 	}
 
 	public String getProdId() {
-		return servicio.obtenerOrdenServicio().getProdId();
+		return prodId;
 	}
 
 	public void setProdId(String prodId) {
-		servicio.obtenerOrdenServicio().setProdId(prodId);
+		this.prodId = prodId;
 	}
 	
-	public Calendar getFechaIni() {
-		return servicio.obtenerOrdenServicio().getFechaIni();
+	public Date getFechaIni() {
+		return fechaIni;
 	}
 
-	public void setFechaIni(Calendar fechaIni) {
-		servicio.obtenerOrdenServicio().setFechaIni(fechaIni);
+	public void setFechaIni(Date fechaIni) {
+		this.fechaIni = fechaIni;
 	}
 
-	public Calendar getFechaFin() {
-		return servicio.obtenerOrdenServicio().getFechaIni();
+	public Date getFechaFin() {
+		return fechaFin;
 	}
 
-	public void setFechaFin(Calendar fechaFin) {
-		servicio.obtenerOrdenServicio().setFechaFin(fechaFin);
+	public void setFechaFin(Date fechaFin) {
+		this.fechaFin = fechaFin;
+	}
+
+	public Orden getOrdenConsultada() {
+		return ordenConsultada;
+	}
+
+	public List<Orden> getOrdenes() {
+		return ordenes;
+	}
+
+	public List<OrdenTotal> getOrdenesTotal() {
+		return ordenesTotal;
+	}
+
+	public boolean getFlag() {
+		return flag;
+	}	
+	
+	public boolean getFlag2() {
+		return flag2;
 	}
 
 }

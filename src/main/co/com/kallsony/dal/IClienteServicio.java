@@ -10,20 +10,13 @@ import co.com.kallsony.dal.utilitarios.PaginationHelper;
 public interface IClienteServicio {
 	
 	boolean crearModificar(Cliente cliente);
-	Object consultarClientes();
 	PaginationHelper getPagination();
 	DataModel getItems();
 	String next();
 	String previous();
 	void recreateModel();
-	boolean parametrosValidos();
-	String getIdentificacion();
-	void setIdentificacion(String identificacion);
-	String getProdId();
 	void setProdId(String prodId);
-	Calendar getFechaIni();
-	void setFechaIni(Calendar fechaIni);
-	Calendar getFechaFin();
-	void setFechaFin(Calendar fechaFin);
+	Object rankingFacturacion(Calendar fechaIni, Calendar fechaFin);
+	Object consultarClientePorId(Cliente cliente);
 
 }

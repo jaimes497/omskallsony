@@ -40,6 +40,14 @@
 					<ui:define name="label">Fabricante</ui:define>
 					<h:inputText value="#{manejadorProducto.producto.producer}" />
 				</s:decorate>
+				<s:decorate id="imagenField" template="/layout/edit.xhtml">
+					<ui:define name="label">Imagen</ui:define>
+					<h:inputText value="#{manejadorProducto.producto.imageurl}" />
+				</s:decorate>
+				<s:decorate id="logoField" template="/layout/edit.xhtml">
+					<ui:define name="label">Logo</ui:define>
+					<h:inputText value="#{manejadorProducto.producto.smallImageurl}" />
+				</s:decorate>
 
 				<div style="clear: both">
 					<span class="required">*</span> Campos Requeridos

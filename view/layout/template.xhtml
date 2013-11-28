@@ -6,9 +6,11 @@
    xmlns:h="http://java.sun.com/jsf/html"
    xmlns:a="http://richfaces.org/a4j"
    xmlns:s="http://jboss.com/products/seam/taglib"
+   xmlns:rich="http://richfaces.org/rich"
    contentType="text/html">
 <html>
    <head>
+      <script src="../js/Sarissa.js" type="text/javascript"/>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
       <title>oms</title>
       <link rel="shortcut icon" href="#{request.contextPath}/favicon.ico"/>
@@ -17,9 +19,16 @@
       <ui:insert name="head"/>
    </head>
    <body onload="Richfaces.showModalPanel('mensaje');">
-      <ui:include src="menu.xhtml">
-         <ui:param name="projectName" value="oms"/>
-      </ui:include>
+     <h:form>
+     
+     <div align="right">
+     	<ui:include src="menu.xhtml">
+     		<ui:param name="projectName" value="oms"/>
+     	</ui:include>
+     </div>
+      
+      <rich:toolBar binding="#{toolBar}"/>
+   </h:form>
       <div class="body">
         <ui:include src="/layout/ajaxStatus.xhtml" />
 			

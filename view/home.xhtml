@@ -1,15 +1,27 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:s="http://jboss.com/products/seam/taglib"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:rich="http://richfaces.org/rich"
-    template="layout/template.xhtml">
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich" template="layout/template.xhtml">
 
-    <ui:define name="body">
+	<ui:define name="body">
 
+		<h1>KALLSONY'S</h1>
+
+		<rich:panel>
+			<h:panelGrid columns="2">
+				<h:graphicImage value="/img/seamlogo.png" alt="Seam logo" />
+				<s:div styleClass="info">
+					<h3>BIENVENIDO!</h3>
+					<p><strong>OMS</strong> - Aplicación de Manejo de Productos y Órdenes</p>
+				</s:div>
+			</h:panelGrid>
+		</rich:panel>
+
+		<!-- 
         <h1>Welcome to Seam!</h1>
         <rich:panel>
             <h:panelGrid columns="2">
@@ -32,6 +44,6 @@
                 </s:div>
             </h:panelGrid>
         </rich:panel>
-
-    </ui:define>
+ -->
+	</ui:define>
 </ui:composition>

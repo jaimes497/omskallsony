@@ -11,7 +11,7 @@
 	<ui:define name="body">
 		<h:form id="formOrden">
 			<rich:panel>
-			
+
 				<f:facet name="header">PANEL BUSQUEDA ORDENES</f:facet>
 
 				<s:decorate template="/layout/display.xhtml">
@@ -25,13 +25,54 @@
 
 				<div style="clear: both" />
 
-				<a:commandButton value="Buscar" reRender="list"
-					action="#{manejadorOrden.recreateModel()}"></a:commandButton>
+				<a:commandButton value="Buscar" reRender="detail,list"
+					action="#{manejadorOrden.consultar()}"></a:commandButton>
 
 			</rich:panel>
 
+			<h:panelGroup id="detail">
+				<h:panelGroup rendered="#{manejadorOrden.flag}">
+					<rich:panel>
+						<f:facet name="header">Orden</f:facet>
+
+						<s:decorate id="idOrdenField" template="/layout/edit.xhtml">
+							<ui:define name="label">Id Orden</ui:define>
+							<h:outputText value="#{manejadorOrden.ordenConsultada.ordid}" />
+						</s:decorate>
+						<s:decorate id="clienteField" template="/layout/edit.xhtml">
+							<ui:define name="label">Cliente</ui:define>
+							<h:outputText
+								value="#{manejadorOrden.ordenConsultada.cust.custid} - #{manejadorOrden.ordenConsultada.cust.fname} #{manejadorOrden.ordenConsultada.cust.lname}" />
+						</s:decorate>
+						<s:decorate id="fechaField" template="/layout/edit.xhtml">
+							<ui:define name="label">Fecha</ui:define>
+							<h:outputText value="#{manejadorOrden.ordenConsultada.orderdate}" />
+						</s:decorate>
+						<s:decorate id="precioField" template="/layout/edit.xhtml">
+							<ui:define name="label">Precio</ui:define>
+							<h:outputText value="#{manejadorOrden.ordenConsultada.price}" />
+						</s:decorate>
+						<s:decorate id="estadoField" template="/layout/edit.xhtml">
+							<ui:define name="label">Estado</ui:define>
+							<h:outputText value="#{manejadorOrden.ordenConsultada.status}" />
+						</s:decorate>
+						<s:decorate id="comentariosField" template="/layout/edit.xhtml">
+							<ui:define name="label">Comentarios</ui:define>
+							<h:outputText value="#{manejadorOrden.ordenConsultada.comments}" />
+						</s:decorate>
+
+						<div style="clear: both" />
+
+						<a:commandButton value="Actualizar Estado"
+							action="#{manejadorOrden.asignar(manejadorOrden.ordenConsultada)}" />
+
+					</rich:panel>
+				</h:panelGroup>
+			</h:panelGroup>
+
 			<h:panelGroup id="list">
-				<h:panelGroup rendered="#{manejadorOrden.parametrosValidos()}">
+
+				<h:panelGroup rendered="#{manejadorOrden.flag2}">
 
 					<rich:dataTable var="_item" value="#{manejadorOrden.items}">
 
@@ -76,18 +117,9 @@
 							<tr>
 								<td align="center" class="dr-subtable-cell rich-subtable-cell">
 									<h1>
-										<a:commandLink reRender="list"
-											action="#{manejadorOrden.previous}" value="Atras"
-											rendered="#{manejadorOrden.pagination.hasPreviousPage}" />
-										#{' '}
-										<h:outputText
-											value="#{manejadorOrden.pagination.pageFirstItem + 1} #{' '}.. #{' '} #{manejadorOrden.pagination.pageLastItem + 1}/#{manejadorOrden.pagination.itemsCount}" />
-										#{' '}
-										<a:commandLink reRender="list"
-											action="#{manejadorOrden.next}"
-											rendered="#{manejadorOrden.pagination.hasNextPage}"
-											value="Siguiente" />
-										#{' '}
+										<a:commandLink reRender="list" action="#{manejadorOrden.previous}" value="Atras" rendered="#{manejadorOrden.pagination.hasPreviousPage}" />#{' '}
+										<h:outputText value="#{manejadorOrden.pagination.pageFirstItem + 1} #{' '}.. #{' '} #{manejadorOrden.pagination.pageLastItem + 1}/#{manejadorOrden.pagination.itemsCount}" />#{' '}
+										<a:commandLink reRender="list" action="#{manejadorOrden.next}" rendered="#{manejadorOrden.pagination.hasNextPage}" value="Siguiente" />#{' '}
 									</h1>
 								</td>
 							</tr>
@@ -96,6 +128,7 @@
 				</h:panelGroup>
 
 			</h:panelGroup>
+
 		</h:form>
 	</ui:define>
 

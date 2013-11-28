@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<diagram model-entity="SeamPagesDiagram">
+ <item ID="*" NAME="*" PATH="*" SHAPE="24,17,0,0" TYPE="page" model-entity="SeamPagesDiagramItem">
+  <output ID="/home.xhtml" NAME="output" PATH="/home.xhtml"
+   TARGET="#xhome.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/producto/ProductoNuevo.xhtml" NAME="output1"
+   PATH="/producto/ProductoNuevo.xhtml"
+   TARGET="#xproducto#xProductoNuevo.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/producto/Producto.xhtml" NAME="output2"
+   PATH="/producto/Producto.xhtml" TARGET="#xproducto#xProducto.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/producto/RankingProducto.xhtml" NAME="output3"
+   PATH="/producto/RankingProducto.xhtml"
+   TARGET="#xproducto#xRankingProducto.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/producto/RankingCategoria.xhtml" NAME="output4"
+   PATH="/producto/RankingCategoria.xhtml"
+   TARGET="#xproducto#xRankingCategoria.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/campania/ListaCampania.xhtml" NAME="output5"
+   PATH="/campania/ListaCampania.xhtml"
+   TARGET="#xcampania#xListaCampania.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/orden/ListaOrden.xhtml" NAME="output6"
+   PATH="/orden/ListaOrden.xhtml" TARGET="#xorden#xListaOrden.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/orden/ListaCerradas.xhtml" NAME="output7"
+   PATH="/orden/ListaCerradas.xhtml"
+   TARGET="#xorden#xListaCerradas.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/orden/RankingAbiertas.xhtml" NAME="output8"
+   PATH="/orden/RankingAbiertas.xhtml"
+   TARGET="#xorden#xRankingAbiertas.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/orden/RankingFacturacion.xhtml" NAME="output9"
+   PATH="/orden/RankingFacturacion.xhtml"
+   TARGET="#xorden#xRankingFacturacion.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/orden/Orden.xhtml" NAME="output10"
+   PATH="/orden/Orden.xhtml" TARGET="#xorden#xOrden.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/cliente/ListaCliente.xhtml" NAME="output11"
+   PATH="/cliente/ListaCliente.xhtml"
+   TARGET="#xcliente#xListaCliente.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+  <output ID="/cliente/RankingFacturacion.xhtml" NAME="output12"
+   PATH="/cliente/RankingFacturacion.xhtml"
+   TARGET="#xcliente#xRankingFacturacion.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item ID="org.jboss.seam.framework.EntityNotFoundException"
+  NAME="exception:org.jboss.seam.framework.EntityNotFoundException"
+  PATH="org.jboss.seam.framework.EntityNotFoundException"
+  SHAPE="24,121,0,0" TYPE="exception" model-entity="SeamPagesDiagramItem">
+  <output ID="/error.xhtml" NAME="output" PATH="/error.xhtml"
+   TARGET="#xerror.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item ID="javax.persistence.EntityNotFoundException"
+  NAME="exception:javax.persistence.EntityNotFoundException"
+  PATH="javax.persistence.EntityNotFoundException" SHAPE="24,225,0,0"
+  TYPE="exception" model-entity="SeamPagesDiagramItem">
+  <output ID="/error.xhtml" NAME="output" PATH="/error.xhtml"
+   TARGET="#xerror.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item ID="javax.persistence.EntityExistsException"
+  NAME="exception:javax.persistence.EntityExistsException"
+  PATH="javax.persistence.EntityExistsException" SHAPE="24,329,0,0"
+  TYPE="exception" model-entity="SeamPagesDiagramItem">
+  <output ID="/error.xhtml" NAME="output" PATH="/error.xhtml"
+   TARGET="#xerror.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item ID="javax.persistence.OptimisticLockException"
+  NAME="exception:javax.persistence.OptimisticLockException"
+  PATH="javax.persistence.OptimisticLockException" SHAPE="24,433,0,0"
+  TYPE="exception" model-entity="SeamPagesDiagramItem">
+  <output ID="/error.xhtml" NAME="output" PATH="/error.xhtml"
+   TARGET="#xerror.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item ID="org.jboss.seam.security.AuthorizationException"
+  NAME="exception:org.jboss.seam.security.AuthorizationException"
+  PATH="org.jboss.seam.security.AuthorizationException"
+  SHAPE="24,537,0,0" TYPE="exception" model-entity="SeamPagesDiagramItem">
+  <output ID="/error.xhtml" NAME="output" PATH="/error.xhtml"
+   TARGET="#xerror.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item ID="org.jboss.seam.security.NotLoggedInException"
+  NAME="exception:org.jboss.seam.security.NotLoggedInException"
+  PATH="org.jboss.seam.security.NotLoggedInException" SHAPE="24,849,0,0"
+  TYPE="exception" model-entity="SeamPagesDiagramItem">
+  <output ID="/login.xhtml" NAME="output" PATH="/login.xhtml"
+   TARGET="#xlogin.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item ID="javax.faces.application.ViewExpiredException"
+  NAME="exception:javax.faces.application.ViewExpiredException"
+  PATH="javax.faces.application.ViewExpiredException" SHAPE="24,641,0,0"
+  TYPE="exception" model-entity="SeamPagesDiagramItem">
+  <output ID="/error.xhtml" NAME="output" PATH="/error.xhtml"
+   TARGET="#xerror.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item ID="org.jboss.seam.ConcurrentRequestTimeoutException"
+  NAME="exception:org.jboss.seam.ConcurrentRequestTimeoutException"
+  PATH="org.jboss.seam.ConcurrentRequestTimeoutException"
+  SHAPE="24,953,0,0" TYPE="exception" model-entity="SeamPagesDiagramItem"/>
+ <item NAME="exception:" SHAPE="24,745,0,0" TYPE="exception" model-entity="SeamPagesDiagramItem">
+  <output ID="/error.xhtml" NAME="output" PATH="/error.xhtml"
+   TARGET="#xerror.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
+ </item>
+ <item NAME="#xhome.xhtml" PATH="/home.xhtml" SHAPE="344,17,0,0"
+  TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item NAME="#xlogin.xhtml" PATH="/login.xhtml" SHAPE="344,849,0,0"
+  TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item NAME="#xerror.xhtml" PATH="/error.xhtml" SHAPE="472,121,0,0"
+  TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item NAME="#xproducto#xProductoNuevo.xhtml"
+  PATH="/producto/ProductoNuevo.xhtml" SHAPE="376,249,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item NAME="#xproducto#xProducto.xhtml" PATH="/producto/Producto.xhtml"
+  SHAPE="408,377,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item NAME="#xproducto#xRankingProducto.xhtml"
+  PATH="/producto/RankingProducto.xhtml" SHAPE="472,529,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item NAME="#xproducto#xRankingCategoria.xhtml"
+  PATH="/producto/RankingCategoria.xhtml" SHAPE="472,529,0,0"
+  TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item NAME="#xcampania#xListaCampania.xhtml"
+  PATH="/campania/ListaCampania.xhtml" SHAPE="472,553,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item NAME="#xorden#xListaOrden.xhtml" PATH="/orden/ListaOrden.xhtml"
+  SHAPE="472,577,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item NAME="#xorden#xListaCerradas.xhtml"
+  PATH="/orden/ListaCerradas.xhtml" SHAPE="472,601,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item NAME="#xorden#xRankingAbiertas.xhtml"
+  PATH="/orden/RankingAbiertas.xhtml" SHAPE="472,625,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item NAME="#xorden#xRankingFacturacion.xhtml"
+  PATH="/orden/RankingFacturacion.xhtml" SHAPE="472,649,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item NAME="#xorden#xOrden.xhtml" PATH="/orden/Orden.xhtml"
+  SHAPE="472,673,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item NAME="#xcliente#xListaCliente.xhtml"
+  PATH="/cliente/ListaCliente.xhtml" SHAPE="472,697,0,0" TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item NAME="#xcliente#xRankingFacturacion.xhtml"
+  PATH="/cliente/RankingFacturacion.xhtml" SHAPE="472,721,0,0"
+  TYPE="page" model-entity="SeamPagesDiagramItem"/>
+</diagram>

@@ -1,0 +1,74 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	template="/layout/template.xhtml">
+
+	<ui:define name="body">
+
+		<h:form id="formProductoNuevo" styleClass="edit">
+
+			<rich:panel>
+				<f:facet name="header">PANEL ADMINISTRACIÓN DE PRODUCTOS</f:facet>				
+				<!-- h:graphicImage value="/image/dvd.jpg" /-->
+				<s:decorate id="idProductoField" template="/layout/edit.xhtml">
+					<ui:define name="label">Id Producto</ui:define>
+					<h:outputText value="#{manejadorProducto.producto.prodid}" />
+				</s:decorate>
+				<s:decorate id="nombreField" template="/layout/edit.xhtml">
+					<ui:define name="label">Nombre</ui:define>
+					<h:inputText value="#{manejadorProducto.producto.name}" />
+				</s:decorate>
+				<s:decorate id="descripcionField" template="/layout/edit.xhtml">
+					<ui:define name="label">Descripcion</ui:define>
+					<h:inputText value="#{manejadorProducto.producto.description}" />
+				</s:decorate>
+				<s:decorate id="categoriaField" template="/layout/edit.xhtml">
+					<ui:define name="label">Categoria</ui:define>
+					<h:inputText value="#{manejadorProducto.producto.category}" />
+				</s:decorate>
+				<s:decorate id="precioField" template="/layout/edit.xhtml">
+					<ui:define name="label">Precio</ui:define>
+					<h:inputText value="#{manejadorProducto.producto.listPrice}" />
+				</s:decorate>
+				<s:decorate id="fabricanteField" template="/layout/edit.xhtml">
+					<ui:define name="label">Fabricante</ui:define>
+					<h:inputText value="#{manejadorProducto.producto.producer}" />
+				</s:decorate>
+				<s:decorate id="imagenField" template="/layout/edit.xhtml">
+					<ui:define name="label">Imagen</ui:define>
+					<rich:fileUpload
+						addControlLabel="Examinar" ajaxSingle="true" fileUploadListener="#{archivoImagen.listener}"
+						clearControlLabel="Borrar" progressLabel="Cargando..." immediateUpload="true"
+						sizeErrorLabel="Error excedio los 10KB" immediate="true" maxFilesQuantity="10"
+						listHeight="60" listWidth="300" style="width:50%" clearAllControlLabel="Borrar Todos">
+					</rich:fileUpload>
+				</s:decorate>
+				<s:decorate id="logoField" template="/layout/edit.xhtml">
+					<ui:define name="label">Logo</ui:define>
+					<rich:fileUpload
+						addControlLabel="Examinar" ajaxSingle="true" fileUploadListener="#{archivoLogo.listener}"
+						clearControlLabel="Borrar" progressLabel="Cargando..." immediateUpload="true"
+						sizeErrorLabel="Error excedio los 4KB" immediate="true" maxFilesQuantity="10"
+						listHeight="60" listWidth="300" style="width:50%" clearAllControlLabel="Borrar Todos">
+					</rich:fileUpload>
+				</s:decorate>
+				
+				<div style="clear: both" />
+
+				<a:commandButton id="save"
+					action="#{manejadorProducto.registrarProducto(manejadorProducto.producto)}"
+					value="Guardar Cambios" />
+
+			</rich:panel>
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

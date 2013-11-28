@@ -11,6 +11,45 @@
             <rule if-outcome="home">
                 <redirect view-id="/home.xhtml"/>
             </rule>
+            <rule if-outcome="registrar_producto">
+                <redirect view-id="/producto/ProductoNuevo.xhtml"/>
+            </rule>
+            <rule if-outcome="admin_producto">
+                <redirect view-id="/producto/Producto.xhtml"/>
+            </rule>
+            <rule if-outcome="ranking_producto">
+                <redirect view-id="/producto/RankingProducto.xhtml"/>
+            </rule>
+            <rule if-outcome="ranking_categoria">
+                <redirect view-id="/producto/RankingCategoria.xhtml"/>
+            </rule>
+            
+            <rule if-outcome="admin_campana">
+                <redirect view-id="/campania/ListaCampania.xhtml"/>
+            </rule>
+            
+            <rule if-outcome="admin_orden">
+                <redirect view-id="/orden/ListaOrden.xhtml"/>
+            </rule>
+            <rule if-outcome="consultar_cerradas">
+                <redirect view-id="/orden/ListaCerradas.xhtml"/>
+            </rule>
+            <rule if-outcome="ranking_abiertas">
+                <redirect view-id="/orden/RankingAbiertas.xhtml"/>
+            </rule>
+            <rule if-outcome="ranking_facturas">
+                <redirect view-id="/orden/RankingFacturacion.xhtml"/>
+            </rule>
+            <rule if-outcome="actualizar_estado">
+                <redirect view-id="/orden/Orden.xhtml"/>
+            </rule>
+            
+            <rule if-outcome="admin_cliente">
+                <redirect view-id="/cliente/ListaCliente.xhtml"/>
+            </rule>
+            <rule if-outcome="ranking_facturacion">
+                <redirect view-id="/cliente/RankingFacturacion.xhtml"/>
+            </rule>
         </navigation>
     </page>
 

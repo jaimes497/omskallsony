@@ -1,17 +1,25 @@
 package co.com.kallsony.bl;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.model.DataModel;
 
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.faces.FacesMessages;
+import org.jboss.seam.international.StatusMessage.Severity;
 
 import co.com.kallsony.bl.entidad.Producto;
+import co.com.kallsony.bl.entidad.ProductoTotal;
 import co.com.kallsony.dal.controlador.FachadaServicio;
 import co.com.kallsony.dal.utilitarios.PaginationHelper;
+import co.com.kallsony.imagen.ArchivoImagen;
+import co.com.kallsony.imagen.ArchivoLogo;
 
 @Name("manejadorProducto")
 @Scope(ScopeType.CONVERSATION)
@@ -19,161 +27,177 @@ public class ManejadorProducto implements IManejadorProducto {
 
 	private FachadaServicio servicio;
 	private Producto producto;
+	private String nombre = "";
+	private String descripcion = "";
+	private String prodId = "";
+	private Date fechaIni;
+	private Date fechaFin;
+	private List<ProductoTotal> productos;
 	
-	public ManejadorProducto(){	
+	@In(create = true)
+	ArchivoImagen		archivoImagen;
+	@In(create = true)
+	ArchivoLogo		archivoLogo;
+	@In
+	FacesMessages	facesMessages;
+	
+	public ManejadorProducto() {
 		servicio = FachadaServicio.getInstance();
+		producto = new Producto();
 	}
-	
+
 	@Override
-	public boolean registrarProducto(Producto producto){
-		return servicio.obtenerProductoServicio().crearModificar(producto);
+	public boolean registrarProducto(Producto producto) {
+		try {
+			String rutaImagen = "c:" + System.getProperty("file.separator") + "Temp" + System.getProperty("file.separator") + "images";
+			String rutaLogo = "c:" + System.getProperty("file.separator") + "Temp" + System.getProperty("file.separator") + "logo";
+			String respuesta = archivoImagen.guardar(rutaImagen, producto.getName(), null);
+			if (respuesta == null){
+				return false;
+			}
+			System.out.println("archivo: " + respuesta);
+			System.out.println("ruta: " + "/Content/Thumbnail/" + respuesta);
+			producto.setImageurl("/Content/Thumbnail/" + producto.getProdid() + "_" + respuesta);
+			respuesta = archivoLogo.guardar(rutaLogo, producto.getName(), null);
+			if (respuesta == null){
+				return false;
+			}
+			System.out.println("archivo: " + respuesta);
+			System.out.println("ruta: " + "/Content/Images/" + respuesta);
+			producto.setImageurl("/Content/Images/" + producto.getProdid() + "_" + respuesta);
+			boolean ok = servicio.obtenerProductoServicio().crearModificar(producto);
+			if (ok) {
+				this.facesMessages.clear();
+				this.facesMessages.add(Severity.INFO, "EL REGISTRO DEL PRODUCTO HA SIDO EXITOSO! :-)");
+				return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		this.facesMessages.add(Severity.ERROR, "LA CARGA NO HA SIDO EXITOSA! :-)");
+		return false;
 	}
-	
+
 	@Override
-	public boolean eliminarProducto(Producto producto){
+	public boolean eliminarProducto(Producto producto) {
 		return servicio.obtenerProductoServicio().eliminar(producto);
 	}
 	
-	public String asignar(Producto producto){
-		this.producto=producto;
+	@Override
+	@SuppressWarnings("unchecked")
+	public void consultarRankingProductosMasVendidos() {
+		Calendar ini = Calendar.getInstance();
+		Calendar fin = Calendar.getInstance();
+		ini.setTime(fechaIni);
+		fin.setTime(fechaFin);
+		
+		productos = (List<ProductoTotal>) servicio.obtenerProductoServicio().rankingProductosMasVendidos(ini, fin);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public void consultarRankingCategoriaMasVendidas() {
+		Calendar ini = Calendar.getInstance();
+		Calendar fin = Calendar.getInstance();
+		ini.setTime(fechaIni);
+		fin.setTime(fechaFin);
+		
+		productos = (List<ProductoTotal>) servicio.obtenerProductoServicio().rankingCategoriaMasVendidas(ini, fin);
+	}
+
+	public String asignar(Object producto) {
+		if (producto instanceof Producto){
+			this.producto = (Producto) producto;
+		} else if (producto instanceof ProductoTotal){
+			ProductoTotal pt = (ProductoTotal) producto;
+			this.producto = new Producto(new BigDecimal(pt.getTotal()), pt.getNombre());
+			this.producto.setListPrice(pt.getPrice());
+		}
 		return "/producto/ProductoEdit.xhtml";
 	}
-	
-	public String listar(){
-		return "/producto/ListaProducto.xhtml";
+
+	public String listar() {
+		return "/producto/Producto.xhtml";
 	}
 
-	
-	/* (non-Javadoc)
-	 * @see co.com.kallsony.bl.IManejadorProducto#consultarProductos()
-	 */
-	@Override
-	@SuppressWarnings("unchecked")
-	public List<Producto> consultarProductos(){
-		return (List<Producto>) servicio.obtenerProductoServicio().consultarProductos();
-	}
-	
-	/* (non-Javadoc)
-	 * @see co.com.kallsony.bl.IManejadorProducto#consultarProductoPorCodigo(co.com.kallsony.bl.entidad.Producto)
-	 */
-	@Override
-	public Producto consultarProductoPorCodigo(Producto producto){
-		return (Producto) servicio.obtenerProductoServicio().consultarPorCodigo(producto);
-	}
-	
-	/* (non-Javadoc)
-	 * @see co.com.kallsony.bl.IManejadorProducto#consultarProductoPorNombre(co.com.kallsony.bl.entidad.Producto)
-	 */
-	@Override
-	public Producto consultarProductoPorNombre(Producto producto){
-		return (Producto) servicio.obtenerProductoServicio().consultarPorNombre(producto);
-	}
-	
-	/* (non-Javadoc)
-	 * @see co.com.kallsony.bl.IManejadorProducto#consultarProductoPorDescripcion(co.com.kallsony.bl.entidad.Producto)
-	 */
-	@Override
-	public Producto consultarProductoPorDescripcion(Producto producto){
-		return (Producto) servicio.obtenerProductoServicio().consultarPorDescripcion(producto);
-	}
-	
-	/* (non-Javadoc)
-	 * @see co.com.kallsony.bl.IManejadorProducto#consultarRankingProductosMasVendidos()
-	 */
-	@Override
-	@SuppressWarnings("unchecked")
-	public List<Producto> consultarRankingProductosMasVendidos(){
-		return (List<Producto>) servicio.obtenerProductoServicio().rankingProductosMasVendidos();
-	}
-	
-	/* (non-Javadoc)
-	 * @see co.com.kallsony.bl.IManejadorProducto#consultarRankingCategoriaMasVendidas()
-	 */
-	@Override
-	@SuppressWarnings("unchecked")
-	public List<Producto> consultarRankingCategoriaMasVendidas(){
-		return (List<Producto>) servicio.obtenerProductoServicio().rankingCategoriaMasVendidas();
-	}
-
-	@Override
 	public PaginationHelper getPagination() {
 		return servicio.obtenerProductoServicio().getPagination();
 	}
 
-	@Override
 	public DataModel getItems() {
 		return servicio.obtenerProductoServicio().getItems();
 	}
 
-	@Override
 	public String next() {
-	  return servicio.obtenerProductoServicio().next();
+		return servicio.obtenerProductoServicio().next();
 	}
-	
 
-	@Override
 	public String previous() {
 		return servicio.obtenerProductoServicio().previous();
 	}
-
-	@Override
-	public String getNombre() {
-		return servicio.obtenerProductoServicio().getNombre();
-	}
-
-	@Override
-	public void setNombre(String nombre) {
-	    servicio.obtenerProductoServicio().setNombre(nombre);
-		
+	
+	public boolean parametrosValidos() {
+		if ((this.nombre != null && !this.nombre.isEmpty())
+				|| (this.descripcion != null && !this.descripcion.isEmpty())
+				|| (this.prodId != null && !this.prodId.isEmpty())
+				|| (this.fechaIni != null)
+				|| (this.fechaFin != null)) {
+			System.out.println("-->parametrosValidos()");
+			System.out.println("-->nombre " + nombre);
+			System.out.println("-->descripcion " + descripcion);
+			System.out.println("-->prodId " + prodId);
+			System.out.println("-->fechaIni " + fechaIni.toString());
+			System.out.println("-->fechaIni " + fechaFin.toString());
+			return true;
+		}
+		return false;
 	}
 	
-	public void recreateModel(){
+	public void recreateModel() {
+		servicio.obtenerProductoServicio().setDescripcion(descripcion);
+		servicio.obtenerProductoServicio().setNombre(nombre);
+		servicio.obtenerProductoServicio().setProdId(prodId);
 		servicio.obtenerProductoServicio().recreateModel();
 	}
 
-	@Override
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
 	public String getDescripcion() {
-		// TODO Auto-generated method stub
-		return servicio.obtenerProductoServicio().getDescripcion();
+		return descripcion;
 	}
 
-	@Override
 	public void setDescripcion(String descripcion) {
-		servicio.obtenerProductoServicio().setDescripcion(descripcion);
-		
+		this.descripcion = descripcion;
 	}
 
-	@Override
 	public String getProdId() {
-		// TODO Auto-generated method stub
-		return servicio.obtenerProductoServicio().getProdId();
+		return prodId;
 	}
 
-	@Override
 	public void setProdId(String prodId) {
-		 servicio.obtenerProductoServicio().setProdId(prodId);
-		
-	}
-	
-	public Calendar getFechaIni() {
-		return servicio.obtenerProductoServicio().getFechaIni();
+		this.prodId = prodId;
 	}
 
-	public void setFechaIni(Calendar fechaIni) {
-		servicio.obtenerProductoServicio().setFechaIni(fechaIni);
+	public Date getFechaIni() {
+		return fechaIni;
 	}
 
-	public Calendar getFechaFin() {
-		return servicio.obtenerProductoServicio().getFechaIni();
+	public void setFechaIni(Date fechaIni) {
+		this.fechaIni = fechaIni;
 	}
 
-	public void setFechaFin(Calendar fechaFin) {
-		servicio.obtenerProductoServicio().setFechaFin(fechaFin);
+	public Date getFechaFin() {
+		return fechaFin;
 	}
 
-	@Override
-	public boolean parametrosValidos() {
-		return servicio.obtenerProductoServicio().parametrosValidos();
+	public void setFechaFin(Date fechaFin) {
+		this.fechaFin = fechaFin;
 	}
 
 	public Producto getProducto() {
@@ -184,4 +208,8 @@ public class ManejadorProducto implements IManejadorProducto {
 		this.producto = producto;
 	}
 	
+	public List<ProductoTotal> getProductos() {
+		return productos;		
+	}
+
 }

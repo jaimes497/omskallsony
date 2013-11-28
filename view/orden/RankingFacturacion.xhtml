@@ -26,14 +26,14 @@
 				<div style="clear: both" />
 
 				<a:commandButton value="Buscar" reRender="list"
-					action="#{manejadorOrden.recreateModel()}"></a:commandButton>
+					action="#{manejadorOrden.consultarRankingOrdensCerradas()}"></a:commandButton>
 
 			</rich:panel>
 
 			<h:panelGroup id="list">
 				<h:panelGroup rendered="#{manejadorOrden.parametrosValidos()}">
 
-					<rich:dataTable var="_item" value="#{manejadorOrden.items}">
+					<rich:dataTable var="_item" value="#{manejadorOrden.ordenes}">
 
 						<rich:column>
 							<f:facet name="header">

@@ -11,7 +11,7 @@
 	<ui:define name="body">
 		<h:form id="formCliente">
 			<rich:panel>
-			
+
 				<f:facet name="header">PANEL BUSQUEDA CLIENTES</f:facet>
 
 				<s:decorate template="/layout/display.xhtml">
@@ -25,14 +25,61 @@
 
 				<div style="clear: both" />
 
-				<a:commandButton value="Buscar" reRender="list"
-					action="#{manejadorCliente.recreateModel()}"></a:commandButton>
+				<a:commandButton value="Buscar" reRender="detail,list"
+					action="#{manejadorCliente.consultar()}"></a:commandButton>
 
 			</rich:panel>
 
-			<h:panelGroup id="list">
-				<h:panelGroup rendered="#{manejadorCliente.parametrosValidos()}">
+			<h:panelGroup id="detail">
+				<h:panelGroup rendered="#{manejadorCliente.flag}">
+					<rich:panel>
+						<f:facet name="header">Cliente</f:facet>
 
+						<s:decorate id="idClienteField" template="/layout/edit.xhtml">
+							<ui:define name="label">Id Cliente</ui:define>
+							<h:outputText
+								value="#{manejadorCliente.clienteConsultado.custid}" />
+						</s:decorate>
+						<s:decorate id="nombreField" template="/layout/edit.xhtml">
+							<ui:define name="label">Nombre</ui:define>
+							<h:outputText value="#{manejadorCliente.clienteConsultado.fname}" />
+						</s:decorate>
+						<s:decorate id="apellidoField" template="/layout/edit.xhtml">
+							<ui:define name="label">Apellido</ui:define>
+							<h:outputText value="#{manejadorCliente.clienteConsultado.lname}" />
+						</s:decorate>
+						<s:decorate id="telefonoField" template="/layout/edit.xhtml">
+							<ui:define name="label">Telefono</ui:define>
+							<h:outputText
+								value="#{manejadorCliente.clienteConsultado.phonenumber}" />
+						</s:decorate>
+						<s:decorate id="correoField" template="/layout/edit.xhtml">
+							<ui:define name="label">Correo Electronico</ui:define>
+							<h:outputText value="#{manejadorCliente.clienteConsultado.email}" />
+						</s:decorate>
+						<s:decorate id="estadoField" template="/layout/edit.xhtml">
+							<ui:define name="label">Estado/Categoria</ui:define>
+							<h:selectOneMenu
+								value="#{manejadorCliente.clienteConsultado.status}"
+								readonly="true" disabled="true">
+								<f:selectItem itemValue="DORADO" itemLabel="Dorado" />
+								<f:selectItem itemValue="PLATEADO" itemLabel="Plateado" />
+								<f:selectItem itemValue="PLATINO" itemLabel="Platino" />
+							</h:selectOneMenu>
+						</s:decorate>
+
+						<div style="clear: both" />
+
+						<a:commandButton value="Editar"
+							action="#{manejadorCliente.asignar(manejadorCliente.clienteConsultado)}" />
+
+					</rich:panel>
+				</h:panelGroup>
+			</h:panelGroup>
+
+			<h:panelGroup id="list"> 
+				<h:panelGroup rendered="#{manejadorOrden.flag2}">
+				
 					<rich:dataTable var="_item" value="#{manejadorCliente.items}">
 
 						<rich:column>
@@ -70,26 +117,17 @@
 							<tr>
 								<td align="center" class="dr-subtable-cell rich-subtable-cell">
 									<h1>
-										<a:commandLink reRender="list"
-											action="#{manejadorCliente.previous}" value="Atras"
-											rendered="#{manejadorCliente.pagination.hasPreviousPage}" />
-										#{' '}
-										<h:outputText
-											value="#{manejadorCliente.pagination.pageFirstItem + 1} #{' '}.. #{' '} #{manejadorCliente.pagination.pageLastItem + 1}/#{manejadorCliente.pagination.itemsCount}" />
-										#{' '}
-										<a:commandLink reRender="list"
-											action="#{manejadorCliente.next}"
-											rendered="#{manejadorCliente.pagination.hasNextPage}"
-											value="Siguiente" />
-										#{' '}
+										<a:commandLink reRender="list" action="#{manejadorCliente.previous}" value="Atras" rendered="#{manejadorCliente.pagination.hasPreviousPage}" />#{' '}
+										<h:outputText value="#{manejadorCliente.pagination.pageFirstItem + 1} #{' '}.. #{' '} #{manejadorCliente.pagination.pageLastItem + 1}/#{manejadorCliente.pagination.itemsCount}" />#{' '}
+										<a:commandLink reRender="list" action="#{manejadorCliente.next}" rendered="#{manejadorCliente.pagination.hasNextPage}" value="Siguiente" />#{' '}
 									</h1>
 								</td>
 							</tr>
 						</table>
 					</h:panelGroup>
 				</h:panelGroup>
-
 			</h:panelGroup>
+			
 		</h:form>
 	</ui:define>
 

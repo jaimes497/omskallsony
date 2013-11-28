@@ -26,28 +26,34 @@
 				<div style="clear: both" />
 
 				<a:commandButton value="Buscar" reRender="list"
-					action="#{manejadorProducto.recreateModel()}"></a:commandButton>
+					action="#{manejadorProducto.consultarRankingProductosMasVendidos()}" />
 
 			</rich:panel>
 
 			<h:panelGroup id="list">
 				<h:panelGroup rendered="#{manejadorProducto.parametrosValidos()}">
 
-					<rich:dataTable var="_item" value="#{manejadorProducto.items}">
+					<rich:dataTable var="_item" value="#{manejadorProducto.productos}">
 
 						<rich:column>
 							<f:facet name="header">
 								<h:outputText value="Prod Id" />
 							</f:facet>
-							<h:outputText value="#{_item.prodid}" />
+							<h:outputText value="#{_item.total}" />
 						</rich:column>
 						<rich:column>
 							<f:facet name="header">
 								<h:outputText value="Nombre" />
 							</f:facet>
-							<h:outputText value="#{_item.name}" />
+							<h:outputText value="#{_item.nombre}" />
 						</rich:column>
-
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Valor" />
+							</f:facet>
+							<h:outputText value="#{_item.price}" />
+						</rich:column>
+						<!--  
 						<rich:column>
 							<f:facet name="header">
 								<h:outputText value="Accion" />
@@ -55,7 +61,7 @@
 							<a:commandLink value="Editar"
 								action="#{manejadorProducto.asignar(_item)}"></a:commandLink>
 						</rich:column>
-
+						-->
 					</rich:dataTable>
 
 				</h:panelGroup>

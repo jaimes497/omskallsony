@@ -4,147 +4,202 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.faces.model.DataModel;
 
-import modelowebservice.ProductoServicePortTypeProxy;
+import modelowebserviceorders.OrdenCantidadTotal;
+import modelowebserviceorders.OrderRanking;
+import modelowebserviceorders.OrderServicePortProxy;
+import modelowebserviceorders.Orders;
 
 import org.jboss.seam.jsf.ListDataModel;
 
+import co.com.kallsonics.Servicios.Negocio.Orden.wsdl.AdministracionOrden.AdministracionOrdenPortTypeProxy;
+import co.com.kallsonics.Servicios.Negocio.Orden.xsd.cambiarEstadoOrden.CambiarEstadoOrdenEntradaType;
+import co.com.kallsonics.Servicios.Negocio.Orden.xsd.cambiarEstadoOrden.CambiarEstadoOrdenSalidaType;
 import co.com.kallsony.bl.entidad.Cliente;
 import co.com.kallsony.bl.entidad.Orden;
+import co.com.kallsony.bl.entidad.OrdenTotal;
 import co.com.kallsony.dal.utilitarios.PaginationHelperOrden;
+import co.com.kallsony.dal.utilitarios.Tranformador;
 
 public class OrdenServicio implements IOrdenServicio {
+	
+	private static final int WS_JAVA = 0;
+	private static final int WS_BROKER = 1; 
+	private int tipo = 2;
+	private OrderServicePortProxy orderServicePortProxy2;
+	private AdministracionOrdenPortTypeProxy orderServicePortProxy;
+	
 	private PaginationHelperOrden pagination;
 	private DataModel items = null;
-	private ProductoServicePortTypeProxy productoServicePortTypeProxy;
-	private String ordid = "";
 	private String prodId = "";
-	private Calendar fechaIni;
-	private Calendar fechaFin;
-	
+		
 	public OrdenServicio() {
-		productoServicePortTypeProxy = new ProductoServicePortTypeProxy();
+		orderServicePortProxy2 = new OrderServicePortProxy();
 	}
 
 	@Override
 	public boolean cancelar(Orden orden) {
 		// TODO Auto-generated method stub
-		return false;
+		try {
+			if (tipo == WS_JAVA){
+				String res = orderServicePortProxy2.cambiarEstadoOrden(orden.getOrdid(), "CANCELADO");
+				if (res.equalsIgnoreCase("guardo")){
+					return true;
+				} else {
+					return false;
+				}
+			} else if (tipo == WS_BROKER) {
+				CambiarEstadoOrdenEntradaType input = new CambiarEstadoOrdenEntradaType(orden.getOrdid(), "CANCELADO");  
+				CambiarEstadoOrdenSalidaType cambiarEstadoOrdenSalidaType = orderServicePortProxy.cambiarEstadoOrden(input);
+				if (cambiarEstadoOrdenSalidaType != null){
+					if (cambiarEstadoOrdenSalidaType.getRespuesta().equalsIgnoreCase("guardo")){
+						return true;
+					} else {
+						return false;
+					}
+				} else {
+					return false;
+				}
+			} else {
+				return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	@Override
 	public boolean eliminar(Orden orden) {
 		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public Object consultarOrdenes() {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			if (tipo == WS_JAVA){
+				String res = orderServicePortProxy2.cambiarEstadoOrden(orden.getOrdid(), "CANCELADO");
+				if (res.equalsIgnoreCase("guardo")){
+					return true;
+				} else {
+					return false;
+				}
+			} else if (tipo == WS_BROKER) {
+				CambiarEstadoOrdenEntradaType input = new CambiarEstadoOrdenEntradaType(orden.getOrdid(), "CANCELADO");  
+				CambiarEstadoOrdenSalidaType cambiarEstadoOrdenSalidaType = orderServicePortProxy.cambiarEstadoOrden(input);
+				if (cambiarEstadoOrdenSalidaType != null){
+					if (cambiarEstadoOrdenSalidaType.getRespuesta().equalsIgnoreCase("guardo")){
+						return true;
+					} else {
+						return false;
+					}
+				} else {
+					return false;
+				}
+			} else {
+				return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	@Override
 	public Object consultarPorId(Orden orden) {
 		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Object consultarPorProducto(Orden orden) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Object consultarPorMes(String mes) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Object rankingOrdenesAbiertas() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Object rankingOrdenesCerradas() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	public ProductoServicePortTypeProxy getProductoServicePortTypeProxy() {
-		return productoServicePortTypeProxy;
-	}
-
-	public void setProductoServicePortTypeProxy(
-			ProductoServicePortTypeProxy productoServicePortTypeProxy) {
-		this.productoServicePortTypeProxy = productoServicePortTypeProxy;
+		try {
+			if (tipo == WS_JAVA){
+				Orders orders = orderServicePortProxy2.findOrden(orden.getOrdid());
+				Orden o = new Orden();
+				if (orders != null){
+					o = (Orden) Tranformador.convertirOrden(orders, orders);
+					return o;
+				} else {
+					return new Orden();
+				}
+			} else if (tipo == WS_BROKER) {
+				return new Orden();
+			} else {
+				Orden orden2 = new Orden("101", new Cliente("101"), new Date(), new BigDecimal(1000), "ABIERTA", "PRUEBA");
+				return orden2;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	@Override
 	public PaginationHelperOrden getPagination() {
+		System.out.println("-->getPagination() " + pagination);
+		int tamano = contarRegistros();
 		if (pagination == null) {
 			pagination = new PaginationHelperOrden(25);
-			pagination.setTamano(this.contarRegistros());
+			pagination.setTamano(tamano);
 		}
+		System.out.println("-->getPagination()* tamano " + pagination.getItemsCount());
 		return pagination;
 	}
 
 	public int contarRegistros() {
 		try {
-			//return getProductoServicePortTypeProxy().findProductoCountParametros(nombre, descripcion, prodId);
-			return 10;
-		} catch (Exception e) {//catch (RemoteException e) {
-			// TODO Auto-generated catch block
+			if (tipo == WS_JAVA) {
+				return orderServicePortProxy2.findOrderProdIdCount(new BigDecimal(prodId));				
+			} else if (tipo == WS_BROKER) {
+				return 0;
+			} else {
+				return 1;
+			}
+		} catch (Exception e) {
 			e.printStackTrace();
 			return 0;
 		}
 	}
 
-	public DataModel paginarClientes() {
+	public DataModel paginarProductos() {
+		System.out.println("-->paginarProductos() ");
+		DataModel model = new ListDataModel();
 		try {
-//			modelowebservice.Producto[] list = getProductoServicePortTypeProxy()
-//					.findProductoPorParametrosRange(
-//							new int[] {
-//									this.getPagination().getPageFirstItem(),
-//									this.getPagination().getPageFirstItem()
-//											+ this.getPagination()
-//													.getPageSize() }, identificacion,
-//							prodId);
-			ArrayList<Object> list = new ArrayList<Object>();
-			Orden orden;
-			for (int i = 0; i < 10; i++) {
-				orden = new Orden("0"+i,new Cliente("0"+i),new Date(),new BigDecimal(i*1000),"A","Comment"+i);
-				list.add(orden);
-			}			
-			return new ListDataModel(list);
-//			if (list != null) {
-//				
-//				return new ListDataModel(Tranformador.convertirListaCliente(list));
-//			}
-//			return null;
-		} catch (Exception e) {//catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			return new ListDataModel();
+			if (tipo == WS_JAVA) {
+				Orders[] list = orderServicePortProxy2.findOrderProdId(
+						new int[] {pagination.getPageFirstItem(), pagination.getPageFirstItem() + pagination.getPageSize()}, new BigDecimal(prodId));
+				
+				if (list != null) {				
+					model = new ListDataModel(Tranformador.convertirListaOrden(list));
+				}
+			} else if (tipo == WS_BROKER) {
+				
+			} else {
+				Orden orden2 = new Orden("101", new Cliente("101"), new Date(), new BigDecimal(1000), "ABIERTA", "PRUEBA");
+				List<Orden> o = new ArrayList<Orden>();
+				o.add(orden2);
+				model = new ListDataModel(o);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-
+		System.out.println("-->paginarProductos()* ");
+		return model;
 	}
 
 	@Override
 	public DataModel getItems() {
+		System.out.println("-->getItems() " + items);
 		if (items == null) {
-			items = this.getPagination()
-					.createPageDataModel(paginarClientes());
+			pagination = getPagination();
+			if (pagination.getItemsCount() > 0){
+				items = pagination.createPageDataModel(paginarProductos());
+			} else {
+				items = new ListDataModel();
+			}
 		}
+		System.out.println("-->getItems()* conteo " + items.getRowCount());
 		return items;
 	}
 
 	@Override
 	public void recreateModel() {
+		System.out.println("-->recreateModel()");
 		this.pagination = null;
 		this.items = null;
 	}
@@ -155,67 +210,104 @@ public class OrdenServicio implements IOrdenServicio {
 
 	@Override
 	public String next() {
-		getPagination().nextPage();
+		System.out.println("-->next()");
+		pagination.nextPage();
 		recreate();
 		return null;
 	}
 
 	@Override
 	public String previous() {
-		getPagination().previousPage();
+		System.out.println("-->previous()");
+		pagination.previousPage();
 		recreate();
 		return null;
-	}	
-	
-	@Override
-	public boolean parametrosValidos() {
-//		if ((this.nombre != null && !this.nombre.isEmpty())
-//				|| (this.descripcion != null && !this.descripcion.isEmpty())
-//				|| (this.prodId != null && !this.prodId.isEmpty())) {
-//			return true;
-//		}
-//		return false;
-		return true;
 	}
 
 	@Override
-	public String getOrdid() {
-		return ordid;
+	public Object consultarPorMes(Calendar fechaIni, Calendar fechaFin) {
+		// TODO Auto-generated method stub
+		List<OrdenTotal> ordenes;
+		try {
+			if (tipo == WS_JAVA){
+				OrdenCantidadTotal ord = orderServicePortProxy2.findOrdenTiempoCerradas(fechaIni.getTime(), fechaFin.getTime());
+				if (ord != null){
+					ordenes = Tranformador.convertirListaOrdenTotal(ord);
+					return ordenes;
+				} else {
+					return false;
+				}
+			} else if (tipo == WS_BROKER) {
+				return false;
+			} else {
+				OrdenTotal or = new OrdenTotal(4, new BigDecimal(10000000l));
+				List<OrdenTotal> l = new ArrayList<OrdenTotal>();
+				l.add(or);
+				return l;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ArrayList<Orden>();
+		}
 	}
 
 	@Override
-	public void setOrdid(String ordid) {
-		this.ordid = ordid;
+	public Object rankingOrdenesAbiertas() {
+		// TODO Auto-generated method stub
+		List<Orden> ordenes;
+		try {
+			if (tipo == WS_JAVA){
+				OrderRanking[] ord = orderServicePortProxy2.findRankingTiempoAbiertas();
+				if (ord != null && ord.length > 0){
+					ordenes = Tranformador.convertirListaOrden(ord);
+					return ordenes;
+				} else {
+					return new ArrayList<Orden>();
+				}
+			} else if (tipo == WS_BROKER) {
+				return false;
+			} else {
+				Orden or = new Orden("101", new Cliente("101"), new Date(), new BigDecimal(1000), "Activa", "Prueba");
+				List<Orden> l = new ArrayList<Orden>();
+				l.add(or);
+				return l;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ArrayList<Orden>();
+		}
 	}
 
 	@Override
-	public String getProdId() {
-		return prodId;
+	public Object rankingOrdenesCerradas(Calendar fechaIni, Calendar fechaFin) {
+		// TODO Auto-generated method stub
+		List<Orden> ordenes;
+		try {
+			if (tipo == WS_JAVA){
+				OrderRanking[] ord = orderServicePortProxy2.findRankingOrdenesDinero(fechaIni.getTime(), fechaFin.getTime());
+				if (ord != null && ord.length > 0){
+					ordenes = Tranformador.convertirListaOrden(ord);
+					return ordenes;
+				} else {
+					return new ArrayList<Orden>();
+				}
+			} else if (tipo == WS_BROKER) {
+				return false;
+			} else {
+				Orden or = new Orden("101", new Cliente("101"), new Date(), new BigDecimal(1000), "Activa", "Prueba");
+				List<Orden> l = new ArrayList<Orden>();
+				l.add(or);
+				return l;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ArrayList<Orden>();
+		}
 	}
 
 	@Override
 	public void setProdId(String prodId) {
 		this.prodId = prodId;
 	}	
-	
-	@Override
-	public Calendar getFechaIni() {
-		return fechaIni;
-	}
-
-	@Override
-	public void setFechaIni(Calendar fechaIni) {
-		this.fechaIni = fechaIni;
-	}
-
-	@Override
-	public Calendar getFechaFin() {
-		return fechaFin;
-	}
-
-	@Override
-	public void setFechaFin(Calendar fechaFin) {
-		this.fechaFin = fechaFin;
-	}	
-	
+		
 }

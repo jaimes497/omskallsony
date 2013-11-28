@@ -1,151 +1,133 @@
 package co.com.kallsony.dal;
 
-import java.rmi.RemoteException;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-import javax.faces.model.DataModel;
-
 import modelowebservicecampania.CampaniaServiceProxy;
-
-import org.jboss.seam.jsf.ListDataModel;
-
+import co.com.kallsonics.Servicios.Negocio.Campana.wsdl.AdministracionCampana.AdministracionCampanaPortTypeProxy;
+import co.com.kallsonics.Servicios.Negocio.Campana.xsd.actualizarCampana.ActualizarEntradaType;
+import co.com.kallsonics.Servicios.Negocio.Campana.xsd.actualizarCampana.ActualizarSalidaType;
+import co.com.kallsonics.Servicios.Negocio.Campana.xsd.consultarCampana.ConsultaEntradaType;
+import co.com.kallsonics.Servicios.Negocio.Campana.xsd.consultarCampana.InfoCampanna;
+import co.com.kallsonics.Servicios.Negocio.Campana.xsd.eliminarCampana.EliminarEntradaType;
+import co.com.kallsonics.Servicios.Negocio.Campana.xsd.eliminarCampana.EliminarSalidaType;
 import co.com.kallsony.bl.entidad.Campania;
-import co.com.kallsony.dal.utilitarios.PaginationHelperCampania;
 import co.com.kallsony.dal.utilitarios.Tranformador;
 
 public class CampaniaServicio implements ICampaniaServicio {
-	private PaginationHelperCampania pagination;
-	private DataModel items = null;
-	private CampaniaServiceProxy campaniaServiceProxy;
-	private String campaniaId = "";
 	
+	private static final int WS_JAVA = 0;
+	private static final int WS_BROKER = 1;
+	private int tipo = 1;
+	
+	private CampaniaServiceProxy campaniaServiceProxy2; 
+	private AdministracionCampanaPortTypeProxy campaniaServiceProxy; 
+		
 	public CampaniaServicio() {
-		campaniaServiceProxy = new CampaniaServiceProxy();
+		if (tipo == WS_JAVA) {
+			campaniaServiceProxy2 = new CampaniaServiceProxy();
+		} else if (tipo == WS_BROKER) {
+			campaniaServiceProxy = new AdministracionCampanaPortTypeProxy();
+		}
 	}
 
 	@Override
 	public boolean crearModificar(Campania campania) {
-		// TODO Auto-generated method stub
-		return false;
+		// Actualiza una campania		
+		try {
+			if (tipo == WS_JAVA) {
+				String res = campaniaServiceProxy2.createUpdateCampania(campania.getCampaniaid(), campania.getProdid(), campania.getUrl(), campania.getFecIni(), campania.getFecFin());
+				if (res.equalsIgnoreCase("guardo")){
+					return true;
+				} else {
+					return false;
+				}
+			} else if (tipo == WS_BROKER) {
+				ActualizarEntradaType input = new ActualizarEntradaType();
+				input = (ActualizarEntradaType) Tranformador.convertirCampania(campania, input);
+				ActualizarSalidaType actualizarSalidaType = campaniaServiceProxy.actualizarCampana(input);
+				if (actualizarSalidaType != null){
+					if (actualizarSalidaType.getRespuesta().equalsIgnoreCase("guardo")){
+						return true;
+					} else {
+						return false;
+					}
+				} else {
+					return false;
+				}
+			} else {
+				return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	@Override
 	public boolean eliminar(Campania campania) {
-		// TODO Auto-generated method stub
-		return false;
+		// Elimina una campania
+		try {
+			if (tipo == WS_JAVA) {
+				String res = campaniaServiceProxy2.eliminarCampania(campania.getCampaniaid());
+				if (res.equalsIgnoreCase("guardo")){
+					return true;
+				} else {
+					return false;
+				}
+			} else if (tipo == WS_BROKER) {
+				EliminarEntradaType input = new EliminarEntradaType();
+				input = (EliminarEntradaType) Tranformador.convertirCampania(campania, input);
+				EliminarSalidaType eliminarSalidaType = campaniaServiceProxy.eliminarCampana(input);
+				if (eliminarSalidaType != null){
+					if (eliminarSalidaType.getRespuesta().equalsIgnoreCase("guardo")){
+						return true;
+					} else {
+						return false;
+					}
+				} else {
+					return false;
+				}
+			} else {
+				return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	@Override
 	public List<Campania> consultarCampanias() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public PaginationHelperCampania getPagination() {
-		if (pagination == null) {
-			pagination = new PaginationHelperCampania(25);
-			pagination.setTamano(this.contarRegistros());
-		}
-		return pagination;
-	}
-
-	public int contarRegistros() {
+		// Consulta todas las campanias
 		try {
-			return getCampaniaServiceProxy().getCampaniaService_PortType().findCampaniasCount();
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return 0;
-		}
-	}
-	
-	public DataModel paginarCampanias() {
-		try {
-//			modelowebservicecampania.Campanna[] list = getProductoServicePortTypeProxy()
-//					.findProductoPorParametrosRange(
-//							new int[] {
-//									this.getPagination().getPageFirstItem(),
-//									this.getPagination().getPageFirstItem()
-//											+ this.getPagination()
-//													.getPageSize() }, nombre,
-//							descripcion, prodId);
-			ArrayList<Object> list = new ArrayList<Object>();
-			if (list != null) {
-				
-				return new ListDataModel(Tranformador.convertirListaProducto(list));
+			if (tipo == WS_JAVA) {
+				if (campaniaServiceProxy2.findCampanias() != null && campaniaServiceProxy2.findCampanias().length > 0) {
+					return Tranformador.convertirListaCampania(campaniaServiceProxy2.findCampanias());
+				} else {
+					return new ArrayList<Campania>();
+				}
+			} else if (tipo == WS_BROKER) {
+				ConsultaEntradaType input = new ConsultaEntradaType();
+				InfoCampanna[] respuesta = campaniaServiceProxy.consultaCampana(input);
+				if (respuesta != null && respuesta.length > 0){
+					return Tranformador.convertirListaCampania(respuesta);
+				} else {
+					return new ArrayList<Campania>();
+				}
+			} else {
+				List<Campania> c = new ArrayList<Campania>();
+				Campania ca = new Campania(new BigDecimal("1"), new BigInteger("1"),"",new Date(), new Date());
+				c.add(ca);
+				return c;
 			}
-			return null;
-		} catch (Exception e) {//catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			return new ListDataModel();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ArrayList<Campania>();
 		}
-
 	}
-
-	@Override
-	public DataModel getItems() {
-		if (items == null) {
-			items = this.getPagination()
-					.createPageDataModel(paginarCampanias());
-		}
-		return items;
-	}
-
-	@Override
-	public void recreateModel() {
-		this.pagination = null;
-		this.items = null;
-	}
-
-	private void recreate() {
-		items = null;
-	}
-
-	@Override
-	public String next() {
-		getPagination().nextPage();
-		recreate();
-		return null;
-	}
-
-	@Override
-	public String previous() {
-		getPagination().previousPage();
-		recreate();
-		return null;
-	}
-
-	public CampaniaServiceProxy getCampaniaServiceProxy() {
-		return campaniaServiceProxy;
-	}
-
-	public void setCampaniaServiceProxy(
-			CampaniaServiceProxy campaniaServiceProxy) {
-		this.campaniaServiceProxy = campaniaServiceProxy;
-	}
-	
-	@Override
-	public boolean parametrosValidos() {
-//		if ((this.nombre != null && !this.nombre.isEmpty())
-//				|| (this.descripcion != null && !this.descripcion.isEmpty())
-//				|| (this.prodId != null && !this.prodId.isEmpty())) {
-//			return true;
-//		}
-//		return false;
-		return true;
-	}
-
-	@Override
-	public String getCampaniaId() {
-		return campaniaId;
-	}
-
-	@Override
-	public void setCampaniaId(String campaniaId) {
-		this.campaniaId = campaniaId;
-	}
-	
 
 }
