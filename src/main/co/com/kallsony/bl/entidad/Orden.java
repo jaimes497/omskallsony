@@ -1,8 +1,9 @@
 package co.com.kallsony.bl.entidad;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class Orden {
@@ -13,7 +14,8 @@ public class Orden {
 	private BigDecimal price;
 	private String status;
 	private String comments;
-	private Set<DetalleOrden> items = new HashSet<DetalleOrden>(0);
+	private String supplier;
+	private List<DetalleOrden> items = new ArrayList<DetalleOrden>(0);
 
 	public Orden() {
 	}
@@ -24,17 +26,18 @@ public class Orden {
 	}
 	
 	public Orden(String ordid, Cliente cust, Date orderdate,
-			BigDecimal price, String status, String comments) {
+			BigDecimal price, String status, String comments, String supplier) {
 		this.ordid = ordid;
 		this.cust = cust;
 		this.orderdate = orderdate;
 		this.price = price;
 		this.status = status;
 		this.comments = comments;
+		this.supplier = supplier;
 	}
 	
 	public Orden(String ordid, Cliente cust, Date orderdate,
-			BigDecimal price, String status, String comments, Set<DetalleOrden> items) {
+			BigDecimal price, String status, String comments, List<DetalleOrden> items) {
 		this.ordid = ordid;
 		this.cust = cust;
 		this.orderdate = orderdate;
@@ -92,12 +95,20 @@ public class Orden {
 		this.comments = comments;
 	}
 
-	public Set<DetalleOrden> getItems() {
+	public List<DetalleOrden> getItems() {
 		return items;
 	}
 
-	public void setItems(Set<DetalleOrden> items) {
+	public void setItems(List<DetalleOrden> items) {
 		this.items = items;
+	}
+	
+	public String getSupplier() {
+		return supplier;
+	}
+
+	public void setSupplier(String supplier) {
+		this.supplier = supplier;
 	}
 
 	@Override

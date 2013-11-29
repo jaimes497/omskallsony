@@ -29,9 +29,10 @@
 					action="#{manejadorOrden.consultar()}"></a:commandButton>
 
 			</rich:panel>
-
+<h:outputText value="#{manejadorOrden.flag}" />-
 			<h:panelGroup id="detail">
 				<h:panelGroup rendered="#{manejadorOrden.flag}">
+				
 					<rich:panel>
 						<f:facet name="header">Orden</f:facet>
 
@@ -64,18 +65,17 @@
 						<div style="clear: both" />
 
 						<a:commandButton value="Actualizar Estado"
-							action="#{manejadorOrden.asignar(manejadorOrden.ordenConsultada)}" />
+							action="#{manejadorOrden.actualizar(manejadorOrden.ordenConsultada)}" />
 
 					</rich:panel>
+
 				</h:panelGroup>
 			</h:panelGroup>
-
+-<h:outputText value="#{manejadorOrden.flag2}" />
 			<h:panelGroup id="list">
-
 				<h:panelGroup rendered="#{manejadorOrden.flag2}">
 
 					<rich:dataTable var="_item" value="#{manejadorOrden.items}">
-
 						<rich:column>
 							<f:facet name="header">
 								<h:outputText value="Orden" />
@@ -106,7 +106,7 @@
 								<h:outputText value="Accion" />
 							</f:facet>
 							<a:commandLink value="Actualizar"
-								action="#{manejadorOrden.asignar(_item)}"></a:commandLink>
+								action="#{manejadorOrden.actualizar(_item)}"></a:commandLink>
 						</rich:column>
 
 					</rich:dataTable>

@@ -9,6 +9,7 @@ import modelowebservice.RankingProducto;
 import modelowebservicecampania.Campanna;
 import modelowebservicecliente.CustomerRanking;
 import modelowebserviceorders.Customer;
+import modelowebserviceorders.Items;
 import modelowebserviceorders.OrdenCantidadTotal;
 import modelowebserviceorders.OrderRanking;
 import modelowebserviceorders.Orders;
@@ -18,6 +19,7 @@ import co.com.kallsonics.Servicios.Negocio.Campana.xsd.eliminarCampana.EliminarE
 import co.com.kallsony.bl.entidad.Campania;
 import co.com.kallsony.bl.entidad.Cliente;
 import co.com.kallsony.bl.entidad.ClienteTotal;
+import co.com.kallsony.bl.entidad.DetalleOrden;
 import co.com.kallsony.bl.entidad.Orden;
 import co.com.kallsony.bl.entidad.OrdenTotal;
 import co.com.kallsony.bl.entidad.ProductoTotal;
@@ -28,7 +30,7 @@ public class Tranformador {
 		if (tipo instanceof Orders) {
 			Orders ord =  (Orders)orden;
 			Cliente cliente = (Cliente) convertirCliente(ord.getCustid(), ord.getCustid());
-			return new Orden(ord.getOrdid(), cliente, ord.getOrderdate(), ord.getPrice(), ord.getStatus(), ord.getComments());
+			return new Orden(ord.getOrdid(), cliente, ord.getOrderdate(), ord.getPrice(), ord.getStatus(), ord.getComments(), ord.getSupplier());
 		}else {
 			return null;
 		}
@@ -50,6 +52,26 @@ public class Tranformador {
 		if (tipo instanceof Producto) {
 			Producto prod =  (Producto)producto;
 			return new co.com.kallsony.bl.entidad.Producto(prod.getId(),prod.getName(),prod.getDescription(),prod.getCategory(),prod.getListPrice(),prod.getProducer(),prod.getImageurl(),prod.getSmallImageurl());
+		}else {
+			return null;
+		}
+	}
+	
+	public static Object convertirDetalleOrden(Object detalle) {
+		Orden orden;
+		List<DetalleOrden> items = new ArrayList<DetalleOrden>();
+		if (detalle instanceof Orders) {
+			DetalleOrden d;
+			Orders o = (Orders)detalle;
+			String sup = o.getSupplier()==null?"":o.getSupplier();
+			orden = new Orden(o.getOrdid(), (Cliente) convertirCliente(o.getCustid(),	o.getCustid()), o.getOrderdate(), o.getPrice(), o.getStatus(), o.getComments(), sup);
+			for (int i = 0; i < o.getItems().length; i++) {
+				Items item = o.getItems()[i];
+				d = new DetalleOrden(item.getItemid(), new BigDecimal(item.getProdid()), item.getProductname(), item.getPartnum(), item.getPrice(), new Integer(item.getQuantity()));
+				items.add(d);				
+			}
+			orden.setItems(items);
+			return orden;
 		}else {
 			return null;
 		}
@@ -120,12 +142,12 @@ public class Tranformador {
 			Cliente cliente = new Cliente();
 			for(Orders ord:ordenConvertir){
 				cliente = (Cliente) convertirCliente(ord.getCustid(), ord.getCustid());
-				listadoOrden.add(new Orden(ord.getOrdid(), cliente, ord.getOrderdate(), ord.getPrice(), ord.getStatus(), ord.getComments()));
+				listadoOrden.add(new Orden(ord.getOrdid(), cliente, ord.getOrderdate(), ord.getPrice(), ord.getStatus(), ord.getComments(), ord.getSupplier()));
 			}
 		} else if(orden instanceof OrderRanking[]){
 			OrderRanking[] ordenConvertir = (OrderRanking[]) orden;
 			for(OrderRanking ord:ordenConvertir){
-				listadoOrden.add(new Orden(ord.getOrdid(), new Cliente(), ord.getOrderdate(), ord.getPrice(), ord.getStatus(), ""));
+				listadoOrden.add(new Orden(ord.getOrdid(), new Cliente(), ord.getOrderdate(), ord.getPrice(), ord.getStatus(), "", ""));
 			}
 		}
 		return listadoOrden;

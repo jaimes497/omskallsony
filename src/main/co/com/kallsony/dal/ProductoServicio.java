@@ -32,7 +32,7 @@ public class ProductoServicio implements IProductoServicio {
 
 	public ProductoServicio() {
 		productoServicePortTypeProxy2 = new ProductoServicePortTypeProxy();
-		tipo = 2;
+		tipo = 0;
 	}
 
 	@Override

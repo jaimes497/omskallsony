@@ -12,8 +12,11 @@ import modelowebserviceorders.OrdenCantidadTotal;
 import modelowebserviceorders.OrderRanking;
 import modelowebserviceorders.OrderServicePortProxy;
 import modelowebserviceorders.Orders;
+import modelowebserviceservientrega.ServientregaServiceProxy;
 
 import org.jboss.seam.jsf.ListDataModel;
+
+import com.pica.www.DHLService.DHLServicePortTypeProxy;
 
 import co.com.kallsonics.Servicios.Negocio.Orden.wsdl.AdministracionOrden.AdministracionOrdenPortTypeProxy;
 import co.com.kallsonics.Servicios.Negocio.Orden.xsd.cambiarEstadoOrden.CambiarEstadoOrdenEntradaType;
@@ -28,7 +31,7 @@ public class OrdenServicio implements IOrdenServicio {
 	
 	private static final int WS_JAVA = 0;
 	private static final int WS_BROKER = 1; 
-	private int tipo = 2;
+	private int tipo = 0;
 	private OrderServicePortProxy orderServicePortProxy2;
 	private AdministracionOrdenPortTypeProxy orderServicePortProxy;
 	
@@ -120,7 +123,7 @@ public class OrdenServicio implements IOrdenServicio {
 			} else if (tipo == WS_BROKER) {
 				return new Orden();
 			} else {
-				Orden orden2 = new Orden("101", new Cliente("101"), new Date(), new BigDecimal(1000), "ABIERTA", "PRUEBA");
+				Orden orden2 = new Orden("101", new Cliente("101"), new Date(), new BigDecimal(1000), "ABIERTA", "PRUEBA", "");
 				return orden2;
 			}
 		} catch (Exception e) {
@@ -170,7 +173,7 @@ public class OrdenServicio implements IOrdenServicio {
 			} else if (tipo == WS_BROKER) {
 				
 			} else {
-				Orden orden2 = new Orden("101", new Cliente("101"), new Date(), new BigDecimal(1000), "ABIERTA", "PRUEBA");
+				Orden orden2 = new Orden("101", new Cliente("101"), new Date(), new BigDecimal(1000), "ABIERTA", "PRUEBA", "");
 				List<Orden> o = new ArrayList<Orden>();
 				o.add(orden2);
 				model = new ListDataModel(o);
@@ -250,6 +253,30 @@ public class OrdenServicio implements IOrdenServicio {
 			return new ArrayList<Orden>();
 		}
 	}
+	
+	@Override
+	public Object consultarDetalle(Orden orden) {
+		// TODO Auto-generated method stub
+		try {
+			if (tipo == WS_JAVA){
+				Orders ord = orderServicePortProxy2.findOrden(orden.getOrdid());
+				Orden orden1;
+				if (ord != null){
+					orden1 = (Orden) Tranformador.convertirDetalleOrden(ord);
+					return orden1;
+				} else {
+					return false;
+				}
+			} else if (tipo == WS_BROKER) {
+				return false;
+			} else {
+				return new Orden();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ArrayList<Orden>();
+		}
+	}
 
 	@Override
 	public Object rankingOrdenesAbiertas() {
@@ -267,7 +294,7 @@ public class OrdenServicio implements IOrdenServicio {
 			} else if (tipo == WS_BROKER) {
 				return false;
 			} else {
-				Orden or = new Orden("101", new Cliente("101"), new Date(), new BigDecimal(1000), "Activa", "Prueba");
+				Orden or = new Orden("101", new Cliente("101"), new Date(), new BigDecimal(1000), "Activa", "Prueba", "");
 				List<Orden> l = new ArrayList<Orden>();
 				l.add(or);
 				return l;
@@ -294,7 +321,7 @@ public class OrdenServicio implements IOrdenServicio {
 			} else if (tipo == WS_BROKER) {
 				return false;
 			} else {
-				Orden or = new Orden("101", new Cliente("101"), new Date(), new BigDecimal(1000), "Activa", "Prueba");
+				Orden or = new Orden("101", new Cliente("101"), new Date(), new BigDecimal(1000), "Activa", "Prueba", "");
 				List<Orden> l = new ArrayList<Orden>();
 				l.add(or);
 				return l;
@@ -303,6 +330,47 @@ public class OrdenServicio implements IOrdenServicio {
 			e.printStackTrace();
 			return new ArrayList<Orden>();
 		}
+	}
+	
+	public String verificarEstadoDhl(Orden orden) {
+		// 
+		try {
+			DHLServicePortTypeProxy dhlServicePortTypeProxy = new DHLServicePortTypeProxy();
+			return dhlServicePortTypeProxy.checkShipmentStatus(orden.getOrdid());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "-";
+		}
+	}
+	
+	public String verificarEstadoDeprisa(Orden orden) {
+		// 
+		try {
+			ServientregaServiceProxy proxy = new ServientregaServiceProxy();
+			return proxy.obtenerEstadoOrden(orden.getOrdid());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "-";
+		}
+	}
+	
+	@Override
+	public Object actualizarEstado(Orden orden) {
+		try {
+			Orden nuevaOrden = orden;
+			String nuevoEstado = "";
+			if (orden.getSupplier().equalsIgnoreCase("DHL")){
+				nuevoEstado = verificarEstadoDhl(orden);
+			} else if (orden.getSupplier().equalsIgnoreCase("SERVIENTREGA")){
+				nuevoEstado = verificarEstadoDeprisa(orden);
+			}
+			nuevaOrden.setStatus(nuevoEstado);
+			return nuevaOrden;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return orden;
+		}
+		
 	}
 
 	@Override

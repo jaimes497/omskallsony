@@ -23,7 +23,7 @@ public class ClienteServicio implements IClienteServicio {
 	
 	private static final int WS_JAVA = 0;
 	private static final int WS_BROKER = 1;
-	private int tipo = 2;
+	private int tipo = 0;
 	private ClienteServicePortProxy clienteServicePortProxy2;
 	
 	private PaginationHelperCliente pagination;

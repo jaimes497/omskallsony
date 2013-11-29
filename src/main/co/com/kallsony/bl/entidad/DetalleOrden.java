@@ -2,13 +2,10 @@ package co.com.kallsony.bl.entidad;
 
 import java.math.BigDecimal;
 
-import co.com.kallsony.model.Orders;
-
 
 public class DetalleOrden {
-	
+
 	private String itemid;
-	private Orders orders;
 	private BigDecimal prodid;
 	private String productname;
 	private String partnum;
@@ -22,11 +19,10 @@ public class DetalleOrden {
 		this.itemid = itemid;
 	}
 	
-	public DetalleOrden(String itemid, Orders orders, BigDecimal prodid,
+	public DetalleOrden(String itemid, BigDecimal prodid,
 			String productname, String partnum, BigDecimal price,
 			Integer quantity) {
 		this.itemid = itemid;
-		this.orders = orders;
 		this.prodid = prodid;
 		this.productname = productname;
 		this.partnum = partnum;
@@ -40,14 +36,6 @@ public class DetalleOrden {
 
 	public void setItemid(String itemid) {
 		this.itemid = itemid;
-	}
-
-	public Orders getOrders() {
-		return orders;
-	}
-
-	public void setOrders(Orders orders) {
-		this.orders = orders;
 	}
 
 	public BigDecimal getProdid() {
@@ -92,7 +80,7 @@ public class DetalleOrden {
 
 	@Override
 	public String toString() {
-		return "DetalleOrden [itemid=" + itemid + ", orders=" + orders
+		return "DetalleOrden [itemid=" + itemid
 				+ ", prodid=" + prodid + ", productname=" + productname
 				+ ", partnum=" + partnum + ", price=" + price + ", quantity="
 				+ quantity + "]";

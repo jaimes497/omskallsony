@@ -28,13 +28,11 @@ public class ManejadorOrden implements IManejadorOrden {
 	private String prodId = "";
 	private Date fechaIni;
 	private Date fechaFin;
-	private boolean flag;
-	private boolean flag2;
+	private boolean flag = false;
+	private boolean flag2 = false;
 	
 	public ManejadorOrden(){	
 		servicio = FachadaServicio.getInstance();
-		flag = false;
-		flag2 = false;
 	}
 	
 	/* (non-Javadoc)
@@ -57,7 +55,7 @@ public class ManejadorOrden implements IManejadorOrden {
 		Orden ord = new Orden();
 		ord.setOrdid(ordid);
 		ordenConsultada = (Orden) servicio.obtenerOrdenServicio().consultarPorId(ord);
-		flag = true;
+		this.flag = true;
 		this.ordid = "";
 	}
 	
@@ -74,7 +72,7 @@ public class ManejadorOrden implements IManejadorOrden {
 	public void recreate() {
 		servicio.obtenerOrdenServicio().setProdId(prodId);
 		servicio.obtenerOrdenServicio().recreateModel();
-		flag2 = true;
+		this.flag2 = true;
 		this.prodId = "";
 	}
 	
@@ -111,7 +109,15 @@ public class ManejadorOrden implements IManejadorOrden {
 	}
 	
 	public String asignar(Orden orden){
-		this.orden=orden;
+		this.orden=(Orden) servicio.obtenerOrdenServicio().consultarDetalle(orden);
+		this.ordenConsultada = null;
+		flag = false;
+		flag2 = false;
+		return "/orden/OrdenEdit.xhtml";
+	}
+	
+	public String actualizar(Orden orden){
+		this.orden=(Orden) servicio.obtenerOrdenServicio().actualizarEstado(orden);
 		this.ordenConsultada = null;
 		flag = false;
 		flag2 = false;
@@ -204,5 +210,15 @@ public class ManejadorOrden implements IManejadorOrden {
 	public boolean getFlag2() {
 		return flag2;
 	}
+
+	public void setFlag(boolean flag) {
+		this.flag = flag;
+	}
+
+	public void setFlag2(boolean flag2) {
+		this.flag2 = flag2;
+	}
+	
+	
 
 }

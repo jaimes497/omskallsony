@@ -26,6 +26,7 @@ import org.richfaces.component.html.HtmlMenuItem;
 import org.richfaces.component.html.HtmlToolBar;
 import org.richfaces.component.html.HtmlToolBarGroup;
 
+import co.com.kallsonics.Servicios.Negocio.Consulta.xsd.consultaMenu.MenuList;
 import co.com.kallsony.bl.entidad.UsuarioLdap;
 import co.com.kallsony.dal.controlador.FachadaServicio;
 
@@ -50,7 +51,7 @@ public class Authenticator {
 	@In(required = false)
 	@Out(required = false, scope = ScopeType.SESSION)
 	private HtmlToolBar toolBar;
-	private List<Menu> mainMenus = new ArrayList<Menu>();
+	private List<co.com.kallsonics.Servicios.Negocio.Consulta.xsd.consultaMenu.Menu> mainMenus = new ArrayList<co.com.kallsonics.Servicios.Negocio.Consulta.xsd.consultaMenu.Menu>();
 	private FachadaServicio servicio;
 	private UsuarioLdap usuario;
 
@@ -98,6 +99,7 @@ public class Authenticator {
 		toolBar.setHeight("35%"); 
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void getMenuItem(String perfil) {
 		log.info("menusForUser");
 		
@@ -128,9 +130,9 @@ public class Authenticator {
            */ 
              
     	try {
-    		//mainMenus = servicio.obtenerSeguridadServicio().obtenerPerfiles(usuario);
-            Menu m = crearMenuManual(MENU_CLIENTE);
-            mainMenus.add(m);
+    		mainMenus = (List<co.com.kallsonics.Servicios.Negocio.Consulta.xsd.consultaMenu.Menu>) servicio.obtenerSeguridadServicio().obtenerPerfiles(usuario);
+            //Menu m = crearMenuManual(MENU_CLIENTE);
+            //mainMenus.add(m);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -140,15 +142,15 @@ public class Authenticator {
 
 		if (mainMenus.size() > 0) {
 			for (int i = 0; i < mainMenus.size(); i++) {
-				Menu menu = mainMenus.get(i);
+				co.com.kallsonics.Servicios.Negocio.Consulta.xsd.consultaMenu.Menu menu = mainMenus.get(i);
 				HtmlDropDownMenu ddm = new HtmlDropDownMenu();
 				ddm.setDirection("bottom-right");
 				ddm.setSubmitMode("ajax");
 				ddm.setValue(menu.getDisplay());	
 				
-				if(menu.getListadoMenus()!=null && menu.getListadoMenus().length>0)
+				if(menu.getListadoMenusList()!=null && menu.getListadoMenusList().length>0)
 				{  
-					this.getSubMenuItem(ddm, menu.getListadoMenus());
+					this.getSubMenuItem(ddm, menu.getListadoMenusList());
 					
 					toolBar.getChildren().add(ddm);
 				}
@@ -311,14 +313,14 @@ public class Authenticator {
 		return m;
 	}
 	
-	public void getSubMenuItem(UIComponentBase parent, Menu[] subSystemMenus) {
+	public void getSubMenuItem(UIComponentBase parent, MenuList[] subSystemMenus) {
 
 		for (int i = 0; i < subSystemMenus.length; i++) {
-			Menu menu = subSystemMenus[i];
+			MenuList menu = subSystemMenus[i];
 
 			if (menu.getStatus()!=null && menu.getStatus().equals("1")) {
 				
-				if(!(menu.getListadoMenus()!=null && menu.getListadoMenus().length>0))
+				if(true)
 				{	 
 					HtmlMenuItem menuItem = new HtmlMenuItem();
 					menuItem.setValue(menu.getDisplay());
@@ -344,7 +346,7 @@ public class Authenticator {
 					log.info("---- HtmlMenuGroup "+menu.getDisplay());
 					HtmlMenuGroup hmg= new HtmlMenuGroup();
 					hmg.setValue(menu.getDisplay());					
-					getSubMenuItem(hmg,menu.getListadoMenus());
+					getSubMenuItem(hmg,null);
 					parent.getChildren().add(hmg);
 				}
 				

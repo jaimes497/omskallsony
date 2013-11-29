@@ -15,6 +15,8 @@ public interface IOrdenServicio {
 	Object consultarPorMes(Calendar fechaIni, Calendar fechaFin);
 	Object rankingOrdenesAbiertas();
 	Object rankingOrdenesCerradas(Calendar fechaIni, Calendar fechaFin);
+	Object actualizarEstado(Orden orden);
+	Object consultarDetalle(Orden orden); 
 	PaginationHelperOrden getPagination();
 	DataModel getItems();
 	void recreateModel();
